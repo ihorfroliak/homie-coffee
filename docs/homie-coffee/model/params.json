@@ -1,0 +1,95 @@
+{
+  "_README": "Every number here is an INPUT to the Gate 0 unit-economics model. Each carries a `src` field: an assumption ID (A#), a source key from sources.md, or the literal string 'TODO-RESEARCH' while it is still unfilled. Nothing in this file is a fact unless `src` points at sources.md. Edit this file and re-run `node docs/homie-coffee/model/unit-economics.mjs` to recompute every table in doc 05.",
+  "_currency": "PLN",
+  "_asOf": "2026-08-20",
+
+  "vat": {
+    "_note": "Omnomnom sp. z o.o. is NOT a VAT payer from 2026-01-01 (F12). Two consequences are modelled: (1) it charges no VAT, so its shelf price IS its net revenue; (2) it CANNOT reclaim input VAT, so VAT paid on coffee, packaging, shipping and fees is a real cost. Both need accountant confirmation.",
+    "isVatPayer": false,
+    "coffeeInputVatRate": { "value": null, "src": "TODO-RESEARCH", "note": "VAT rate on roasted coffee in PL" },
+    "servicesInputVatRate": { "value": 0.23, "src": "TODO-RESEARCH", "note": "standard rate on shipping/packaging/fees" },
+    "exemptionThreshold": { "value": null, "src": "TODO-RESEARCH", "note": "turnover limit before VAT registration is forced" }
+  },
+
+  "supplyModels": {
+    "contractRoastPrivateLabel": {
+      "label": "Contract roasting / private label",
+      "costPerKgRoastedGross": { "value": null, "src": "TODO-RESEARCH" },
+      "moqKg": { "value": null, "src": "TODO-RESEARCH" },
+      "packagingSuppliedBy": "TODO-RESEARCH",
+      "leadTimeDays": { "value": null, "src": "TODO-RESEARCH" }
+    },
+    "wholesaleResale": {
+      "label": "Wholesale resale of an existing roaster's product",
+      "costPerKgRoastedGross": { "value": null, "src": "TODO-RESEARCH" },
+      "moqKg": { "value": null, "src": "TODO-RESEARCH" },
+      "packagingSuppliedBy": "supplier",
+      "leadTimeDays": { "value": null, "src": "TODO-RESEARCH" }
+    },
+    "dropship": {
+      "label": "Dropshipping",
+      "costPerKgRoastedGross": { "value": null, "src": "TODO-RESEARCH" },
+      "moqKg": { "value": 0, "src": "definition" },
+      "packagingSuppliedBy": "supplier",
+      "leadTimeDays": { "value": null, "src": "TODO-RESEARCH" }
+    }
+  },
+
+  "packagingPerBag": {
+    "pouch250g": { "value": null, "src": "TODO-RESEARCH" },
+    "pouch1kg": { "value": null, "src": "TODO-RESEARCH" },
+    "label": { "value": null, "src": "TODO-RESEARCH" }
+  },
+
+  "fulfilment": {
+    "outerBoxOrMailer": { "value": null, "src": "TODO-RESEARCH" },
+    "packMinutesPerOrder": { "value": null, "src": "A7" },
+    "founderHourlyOpportunityCost": { "value": null, "src": "A7", "note": "Set to 0 to see cash-only margin; set to a real rate to see whether the founder's time is being destroyed." }
+  },
+
+  "shipping": {
+    "b2cParcelCost": { "value": null, "src": "TODO-RESEARCH", "note": "what WE pay per parcel" },
+    "b2cParcelPriceCharged": { "value": null, "src": "TODO-RESEARCH", "note": "what the customer pays below the free threshold" },
+    "freeShippingThreshold": { "value": null, "src": "TODO-RESEARCH", "note": "market norm; the model solves for the viable one" },
+    "codSurcharge": { "value": null, "src": "TODO-RESEARCH" },
+    "codShareOfOrders": { "value": null, "src": "TODO-RESEARCH" },
+    "b2bDeliveryCostPerDrop": { "value": null, "src": "TODO-RESEARCH" }
+  },
+
+  "payments": {
+    "cardFeeRate": { "value": null, "src": "TODO-RESEARCH" },
+    "cardFeeFixed": { "value": null, "src": "TODO-RESEARCH" },
+    "blikFeeRate": { "value": null, "src": "TODO-RESEARCH" },
+    "blikShareOfOrders": { "value": null, "src": "TODO-RESEARCH" }
+  },
+
+  "allowances": {
+    "refundAndDamageRate": { "value": null, "src": "TODO-RESEARCH" },
+    "averageDiscountRate": { "value": null, "src": "A8" },
+    "supportMinutesPerOrder": { "value": null, "src": "A7" }
+  },
+
+  "b2b": {
+    "_note": "A3 correction: a warm channel is NOT zero-CAC. Sales labour, samples, discounts, delivery and account management are costed explicitly here.",
+    "pricePerKg": { "value": null, "src": "TODO-RESEARCH" },
+    "salesHoursPerWonAccount": { "value": null, "src": "A3" },
+    "sampleCostPerProspect": { "value": null, "src": "A3" },
+    "prospectsPerWonAccount": { "value": null, "src": "A3" },
+    "accountManagementHoursPerMonth": { "value": null, "src": "A3" },
+    "monthlyChurnRate": { "value": null, "src": "A3" }
+  },
+
+  "acquisition": {
+    "assumedCpc": { "value": null, "src": "TODO-RESEARCH" },
+    "assumedConversionRate": { "value": null, "src": "TODO-RESEARCH" },
+    "repeatRateOrder2": { "value": null, "src": "A9" },
+    "repeatRateOrder3": { "value": null, "src": "A9" }
+  },
+
+  "validationBudgetCeilings": {
+    "_note": "A2. Scenario ceilings, NOT committed budgets. The rejected 40-60k PLN figure must never reappear.",
+    "lean": 2000,
+    "controlledPilot": 5000,
+    "expandedPilot": 10000
+  }
+}
