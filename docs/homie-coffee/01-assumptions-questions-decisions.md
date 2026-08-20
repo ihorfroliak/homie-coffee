@@ -30,7 +30,7 @@ side of it — see `AGENTS.md`.
 |---|---|---|
 | F1 | Local project folder was empty — no files, no Git, no framework. | `ls -laR` on `C:\Users\ihorf\Projects\homies-coffee`, 2026-08-20 |
 | F2 | Remote `github.com/ihorfroliak/homie-coffee` exists, is readable without auth, and has zero refs (empty repository). | `git ls-remote` exit 0, no output |
-| F3 | No `gh` CLI on PATH and no Git credential helper configured — this environment cannot push to GitHub unattended. | `Get-Command gh`, `git config --global credential.helper` |
+| F3 | No `gh` CLI on PATH, but the system Git config carries the `manager` credential helper with working GitHub credentials — **this environment can push to `origin`**. Verified by an actual push. | `git config --show-origin --get-all credential.helper`, `git push -u origin main` exit 0 |
 | F4 | Homie Coffee is already declared part of a brand family. `homie-english/README.md`: "Part of the **Homie** ecosystem (Coffee, HeyHomie, Homies, Homie English)." | file read, 2026-08-20 |
 | F5 | Sibling folder `homie-sports` was created at the same time as this one and is also empty. | directory listing |
 | F6 | The house stack in the most recent sibling product (`homie-english`) is Next.js 15 App Router + TypeScript strict + Tailwind + Prisma + Vitest, on Node 24 / npm 11. | `homie-english/package.json`, `node -v` |
@@ -215,4 +215,4 @@ Every assumption is provisional and carries the ID used to trace derived numbers
 - No production code, no framework, no dependencies, no database, no scaffolding.
 - No technology has been selected. The presence of a house stack (F6) is an input to the
   decision matrix, not the decision.
-- No push to GitHub — this environment has no credentials (F3).
+- No push of anything beyond this control-plane commit. The first commit (`cc82666` — AGENTS.md, CLAUDE.md, README.md, docs 01 and 17) **was** pushed to `origin/main`, because D-001 makes GitHub the canonical location of all work.

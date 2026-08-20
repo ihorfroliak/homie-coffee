@@ -132,7 +132,7 @@ Claude Code cannot do any of these; each needs an account, a credential or an in
 
 | # | Item | Needed for | Notes |
 |---|---|---|---|
-| P1 | Push access from this environment | anything reaching GitHub at all | No `gh` CLI and no credential helper here (F3). A PAT in the environment, `gh` installed and authenticated, or Ihor pushes manually. |
+| P1 | ~~Push access from this environment~~ | — | **Resolved 2026-08-20.** The system Git credential manager already holds working GitHub credentials; `git push -u origin main` succeeded. No `gh` CLI, so issue/PR automation still needs either `gh` installed or the GitHub API via token. |
 | P2 | Claude GitHub App installed on the repository | Layer 2, Half A | |
 | P3 | `ANTHROPIC_API_KEY` repository secret | Layer 2, Half A | Never committed to the repository, in any form. |
 | P4 | Codex connected to the repository | Layer 2, Half B | |
