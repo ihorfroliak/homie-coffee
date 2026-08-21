@@ -11,7 +11,7 @@ link, a publication date and an access date. 213 claims are recorded there.
 **Maintained by:** Claude Code. Codex must not resolve an open question by implementing one side
 of it — see `AGENTS.md`.
 
-**Last updated:** 2026-08-21, branch `claude/commercial-feasibility-gate-0`.
+**Last updated:** 2026-08-21, branch `codex/admin-dashboard-design-system`.
 
 ---
 
@@ -157,7 +157,7 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 | D-003 | Positioning | ⚠ open | Ihor | Gate 0 tests accessible speciality; approval comes after Gate 0 |
 | D-004 | Business model | ⚠ open | Ihor | Blocked on Gate 0 unit economics |
 | D-005 | MVP scope | ⚠ open | Ihor | Blocked on D-003, D-004 |
-| D-006 | Technology choice | ⚠ open | Ihor | **Deferred out of Gate 0.** Not to be decided or designed now. |
+| D-006 | Technology choice | **APPROVED 2026-08-21** | Ihor | Node 24 LTS; Next.js/TypeScript modular monolith; PostgreSQL 18 + Prisma; Better Auth core + mandatory owner TOTP; Render Frankfurt; transactional append-only PostgreSQL audit; Vitest + Testcontainers + Playwright. Approval does not authorise cloud spend or production implementation. |
 | D-007 | Google Ads measurement model | ⚠ open | Ihor | Deferred out of Gate 0 |
 | D-008 | Roadmap and phase gates | ⚠ open | Ihor | Deferred out of Gate 0 |
 | D-009 | Native mobile application at launch | **Claude Code recommends: no** | Ihor | Argument deferred to the specification phase; recorded so it is not silently dropped |
@@ -174,6 +174,7 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 | **D-020** | Approve the ~850 PLN private-label pilot batch | ⚠ open, after D-019 | Ihor | Real product for the field test. |
 | **D-021** | **Trademark search on "Homie" in Nice class 30 before any brand spend** | ⚠ open | Ihor | Currently **unverified** — EUIPO returned 403, TMview reset (REG-27). A conflict affects the whole Homie ecosystem. |
 | **D-022** | Confirm the accountant and lawyer to consult (VAT registration; HeyHomie cross-marketing lawful basis) | ⚠ open | Ihor | REG-10, REG-25/26. |
+| **D-023** | **Create the Admin design system and first Dashboard as a local non-production prototype** | **APPROVED 2026-08-21** | Ihor | Selected visual direction: Option 1. Mock data only; no production backend, database, auth, external integrations, cloud spend or deploy. |
 
 ---
 
@@ -208,7 +209,8 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 - No landing page, no waitlist, no advertising, no spend of any kind.
 - No GitHub Actions, secrets, keys, infrastructure, external accounts or application scaffolding
   (D-013).
-- No production code, no framework, no dependencies, no database.
-- No technology chosen; the technology decision is deferred out of Gate 0 entirely.
+- No production application, database, authentication, cloud resources or external integrations.
+- D-006 is approved. A separate local UI prototype may use dependencies, but production implementation
+  remains gated by unresolved product/scope decisions and explicit implementation approval.
 - No landing page created.
 - No merge to `main`, and none will be performed by Claude Code (D-014).

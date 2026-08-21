@@ -1,6 +1,7 @@
 # D-006 proposal — технологічна архітектура Admin MVP
 
-**Статус:** рекомендація Codex; потребує рішення Ігоря та перенесення Claude у canonical spec.
+**Статус:** **APPROVED Ігорем 2026-08-21**; перенесено Codex у canonical decision register,
+потребує review/reconciliation від Claude Code.
 **Дата перевірки джерел:** 2026-08-21.
 **Scope:** Admin MVP і перший B2B pilot; не storefront, не мобільний застосунок, не ERP.
 **Залежності:** виправлений Gate 0, затверджені D-003–D-005 і D-008, рішення ADM-01–ADM-08.
