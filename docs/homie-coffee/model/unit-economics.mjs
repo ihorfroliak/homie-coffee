@@ -25,7 +25,7 @@ const PLN = (n) => (n === null || n === undefined || Number.isNaN(n) ? '—' : n
 const PCT = (n) => (n === null || n === undefined || Number.isNaN(n) ? '—' : `${(n * 100).toFixed(1)}%`)
 
 /** Pull a value out of a `{value, src}` node. Returns null when unresolved. */
-function v(node) {
+export function v(node) {
   if (node === null || node === undefined) return null
   if (typeof node === 'number' || typeof node === 'boolean') return node
   if (typeof node === 'object' && 'value' in node) return node.value
@@ -48,7 +48,7 @@ function findHoles(obj, path = [], out = []) {
 }
 
 /** Deep-merge a scenario's `overrides` onto the base params without mutating them. */
-function merge(base, over) {
+export function merge(base, over) {
   if (over === null || over === undefined) return base
   if (typeof base !== 'object' || base === null || Array.isArray(base)) return over
   const out = { ...base }
@@ -138,6 +138,16 @@ export function cohort({ p, order, cac }) {
 
 /** One B2B account, costed honestly — a warm lead is not a free lead (A3 correction). */
 export function b2bAccount({ p, monthlyKg }) {
+  const taxModelStatus = v(p.b2b.taxModelStatus)
+  const priceBasis = v(p.b2b.priceBasis)
+  if (taxModelStatus !== 'verified_v1' || !['net', 'gross', 'buyer_effective_cost'].includes(priceBasis)) {
+    return {
+      resolved: false,
+      reason: 'B2B VAT model is disabled pending a verified price basis and consistent tax treatment.',
+      monthlyKg,
+    }
+  }
+
   // A non-VAT payer gives a VAT-registered buyer nothing to deduct, so the list price must be cut
   // to cost that buyer the same as a registered supplier's. Consumers are unaffected (REG-10).
   const handicap = v(p.b2b.vatRegistered) === true ? 0 : (v(p.b2b.nonVatPayerPriceHandicap) ?? 0)
@@ -156,6 +166,7 @@ export function b2bAccount({ p, monthlyKg }) {
   const expectedMonths = churn > 0 ? 1 / churn : null
 
   return {
+    resolved: true,
     monthlyKg, revenue, coffeeCost, delivery, monthlyServiceCost, monthlyContribution, acquisitionCost,
     paybackMonths: monthlyContribution > 0 ? acquisitionCost / monthlyContribution : null,
     expectedMonths,
@@ -240,10 +251,14 @@ function run() {
     console.log('|---|--:|--:|--:|--:|--:|')
     for (const kg of B2B_SIZES) {
       const a = b2bAccount({ p, monthlyKg: kg })
-      console.log(`| ${kg} kg/month | ${PLN(a.revenue)} | ${PLN(a.monthlyContribution)} | ${PLN(a.acquisitionCost)} | ${a.paybackMonths ? a.paybackMonths.toFixed(1) : 'never'} | ${PLN(a.lifetimeContribution)} |`)
+      if (!a.resolved) {
+        console.log(`| ${kg} kg/month | unresolved | unresolved | unresolved | unresolved | unresolved |`)
+      } else {
+        console.log(`| ${kg} kg/month | ${PLN(a.revenue)} | ${PLN(a.monthlyContribution)} | ${PLN(a.acquisitionCost)} | ${a.paybackMonths ? a.paybackMonths.toFixed(1) : 'never'} | ${PLN(a.lifetimeContribution)} |`)
+      }
     }
     console.log('')
-    console.log('_B2B block uses PLACEHOLDER inputs pending the B2B research stream. No B2B conclusion may be drawn from it._')
+    console.log('_B2B VAT output is intentionally unresolved until price basis, output VAT and deductible input VAT are modelled consistently._')
   }
 
   // Solve: at what cost per kg does the best single order cover a median CPA?
@@ -264,4 +279,5 @@ function run() {
   console.log('')
 }
 
-run()
+const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]
+if (isDirectRun) run()

@@ -89,9 +89,9 @@
   },
   "shipping": {
     "b2cParcelCost": {
-      "value": 11.09,
+      "value": 15.41,
       "src": "COST-09",
-      "note": "Furgonetka business rate for InPost Paczkomat gabaryt A, netto. Cheapest verified route requiring no carrier contract. NB Furgonetka's own netto/brutto columns do not reconcile at 23% (COST gap), so the landed figure may be higher."
+      "note": "Furgonetka displays 11.09 PLN netto and 15.41 PLN brutto for InPost Paczkomat gabaryt A. Omnomnom is currently VAT-exempt and cannot reclaim input VAT, so the model must use the displayed gross cash cost. The page's net/gross columns do not reconcile at 23%; verify the invoice before Gate 1."
     },
     "b2cParcelPriceCharged": {
       "value": 12.99,
@@ -160,10 +160,20 @@
   },
   "b2b": {
     "_note": "A3 correction: a warm channel is NOT zero-CAC — sales labour, samples, delivery and account management are costed explicitly. Sizes 5/10/20 kg span an office (3-4 kg/month per 20 staff, B2B-16) to a hotel (17.6 kg/month, B2B-22).",
+    "taxModelStatus": {
+      "value": "disabled_pending_verified_vat_model",
+      "src": "CODEX-REVIEW-2026-08-21",
+      "note": "Safety gate. Do not enable B2B output merely by filling priceBasis. Implement and test consistent output VAT, deductible input VAT, and buyer-effective price comparisons first."
+    },
     "pricePerKg": {
       "value": 150.0,
       "src": "B2B-14",
-      "note": "Polish HoReCa bean ladder: 45-65 economy, 65-95 standard gastro, 95-140 premium, 120-180+ speciality PLN/kg. 150 is mid-speciality."
+      "note": "Polish HoReCa bean ladder: 45-65 economy, 65-95 standard gastro, 95-140 premium, 120-180+ speciality PLN/kg. The source does not state whether these figures are net or gross, so this value cannot drive a VAT comparison."
+    },
+    "priceBasis": {
+      "value": "unknown",
+      "src": "B2B-14",
+      "note": "Must become 'net', 'gross', or another explicitly defined comparable basis after a real supplier/customer quote and accountant review. Until then the model must not emit B2B VAT conclusions."
     },
     "vatRegistered": {
       "value": false,
