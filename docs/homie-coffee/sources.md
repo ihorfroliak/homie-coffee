@@ -283,3 +283,26 @@ means it was not obtainable, never that it was assumed.
 | **REG-26** | Under GDPR the processing itself can rest on the controller's legitimate interest (art. 6(1)(f), recital 47 treating direct marketing of own products as a legitimate interest) rather than consent, but that GDPR basis is separate from and… | — | inference | _derived — no source_ | not shown | medium |
 | **REG-27** | No trademark search could be completed: EUIPO's search returned HTTP 403 Forbidden, the TMview API connection was reset (ECONNRESET), and the UPRP register was not reachable, so the registration status of "Homie" or "Homie Coffee" in Nic… | 0 registers successfully searched | fact | [EUIPO search endpoint — returned HTTP 403 Forbidde](https://www.euipo.europa.eu/en/search?query=homie) | not shown | high |
 | **REG-28** | A general Polish-language search for a "Homie" coffee roastery or bean brand surfaced no such brand, returning only unrelated Polish roasters (Coffee&Sons, Świeżo Palona, NUNO, and roaster listings on Coffeedesk and Konesso); this is wea… | 0 matching Polish coffee brands found | estimate | [Coffeedesk — Polish roasters listing (returned by ](https://www.coffeedesk.pl/kawa/palarnia/polska/) | not shown | low |
+
+---
+
+## TECH — D-006 Admin technology decision
+
+*12 claims added manually by Codex from primary documentation; accessed 2026-08-21. The Gate 0
+raw-record generator is absent from this branch, so Claude must preserve or normalise these entries
+when it restores reproducible source generation.*
+
+| Key | Claim | Value | Tag | Source | Published | Conf. |
+|---|---|---|---|---|---|---|
+| **TECH-01** | Next.js supports self-hosting as a Node.js server and as a Docker container; its official guide calls for a reverse proxy when directly self-hosting. | Node/Docker supported | fact | [Next.js — Self-Hosting](https://nextjs.org/docs/app/guides/self-hosting) | updated 2026-03-25 | high |
+| **TECH-02** | Node.js lists v24 as an LTS release line and recommends Active or Maintenance LTS for production. | Node 24 LTS | fact | [Node.js — Releases](https://nodejs.org/en/about/previous-releases) | live schedule | high |
+| **TECH-03** | Prisma Client provides type-safe queries and interactive transactions; its PostgreSQL connector supports the Serializable isolation level. | typed client; Serializable | fact | [Prisma — Transactions](https://www.prisma.io/docs/orm/v6/prisma-client/queries/transactions) | live docs | high |
+| **TECH-04** | Drizzle supports transactional APIs and nested transactions/savepoints, so it is a technically viable alternative rather than a rejected incapable option. | transactions/savepoints | fact | [Drizzle — Transactions](https://orm.drizzle.team/docs/transactions) | live docs | high |
+| **TECH-05** | Better Auth supports database-backed sessions, disabling email/password sign-up, session revocation controls and TOTP/backup-code 2FA. | private signup + DB sessions + TOTP | fact | [Better Auth — Options](https://better-auth.com/docs/reference/options), [2FA](https://better-auth.com/docs/plugins/2fa) | live docs | high |
+| **TECH-06** | Render offers Frankfurt for services and datastores; services and databases in the same region can use private networking/internal database URLs. | Frankfurt + private network | fact | [Render — Regions](https://render.com/docs/regions), [Postgres connections](https://render.com/docs/postgresql-creating-connecting) | live docs | high |
+| **TECH-07** | Paid Render PostgreSQL receives continuous backups for point-in-time recovery; free instances do not receive recovery capabilities. | paid PITR; no free recovery | fact | [Render — Postgres recovery and backups](https://render.com/docs/postgresql-backups) | live docs | high |
+| **TECH-08** | Supabase allows a specific Central EU Frankfurt region; its general Europe grouping may select a non-EU location, so a specific region is required for an EU-only choice. | Frankfurt specific region | fact | [Supabase — Available regions](https://supabase.com/docs/guides/platform/regions) | live docs | high |
+| **TECH-09** | Supabase Pro is listed from USD 25/month with daily backups retained seven days; hosted PITR is listed as a separate USD 100/month add-on for seven-day retention. | USD 25 base; USD 100 PITR add-on | fact | [Supabase — Pricing](https://supabase.com/pricing) | live pricing | high |
+| **TECH-10** | Vercel lists Pro at USD 20/month before usage overages; Hobby is described for personal projects rather than a commercial production admin. | USD 20/month Pro | fact | [Vercel — Pricing](https://vercel.com/pricing) | live pricing | high |
+| **TECH-11** | Playwright creates an isolated browser context for each test, separating cookies, storage and sessions. | isolated browser contexts | fact | [Playwright — Isolation](https://playwright.dev/docs/browser-contexts) | live docs | high |
+| **TECH-12** | Testcontainers for Node can start a real PostgreSQL container for integration tests instead of replacing production database behaviour with an in-memory substitute. | real PostgreSQL tests | fact | [Testcontainers — Node.js/PostgreSQL guide](https://testcontainers.com/guides/getting-started-with-testcontainers-for-nodejs/) | live docs | high |

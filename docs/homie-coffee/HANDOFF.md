@@ -35,3 +35,18 @@ Append-only coordination record for Claude Code, Codex and Ihor.
 - **Not done:** no framework, database, UI code, infrastructure, external account or integration.
 - **Next owner:** Ihor decides ADM-01–ADM-08; Claude then promotes approved decisions into the
   canonical specification; Codex implements only the approved first slice.
+
+## 2026-08-21 — Codex D-006 Admin technology proposal
+
+- **Branch:** `codex/admin-mvp-spec-proposal`.
+- **Status:** recommendation only; not approved, provisioned, pushed, merged or deployed.
+- **Compared:** Next.js modular monolith; Next.js + Supabase; split Next.js + NestJS API.
+- **Recommendation:** Node 24 LTS, Next.js/TypeScript modular monolith, PostgreSQL 18, Prisma,
+  Better Auth core with owner TOTP, Render Frankfurt, transactional append-only Postgres audit,
+  Vitest + Testcontainers + Playwright.
+- **Evidence:** 12 primary-source claims appended as `TECH-01`–`TECH-12` in `sources.md`; all
+  accessed 2026-08-21. Architecture scores are explicit Codex inferences.
+- **Artifact:** `reviews/2026-08-21-d006-admin-technology-proposal.uk.md`.
+- **Not done:** no dependencies, scaffold, CI, cloud accounts, secrets, spend or production code.
+- **Next owner:** Ihor approves/rejects the proposed D-006 text; Claude promotes it to canonical
+  doc 01 and reconciles source generation; Codex then prepares the Admin design system proposal.
