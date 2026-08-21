@@ -70,3 +70,14 @@ Append-only coordination record for Claude Code, Codex and Ihor.
 - **Next owner:** Claude Code reviews commit `b55f04b`, reconciles canonical decisions with its Gate
   documents, and returns concrete findings. Production implementation stays gated by D-003–D-005
   and D-008; the next safe Codex slice is the Admin component/state specification.
+
+## 2026-08-21 — GitHub handoff to Claude Code
+
+- **Remote branch:** `origin/codex/admin-dashboard-design-system` — pushed successfully.
+- **Review base:** `claude/commercial-feasibility-gate-0` so the review diff contains only the
+  Codex audit, Admin proposals, approved D-006/D-023 and Dashboard prototype.
+- **Review request:** `reviews/2026-08-21-claude-admin-review-request.uk.md`.
+- **PR state:** branch is ready; GitHub App could not create the draft PR because the installation
+  returned HTTP 403. No token or stored credential was extracted or exposed.
+- **Next owner:** Ihor or Claude Code opens the prepared compare link, then Claude performs the
+  requested review. Merge and deployment remain prohibited until the review and gate decisions.
