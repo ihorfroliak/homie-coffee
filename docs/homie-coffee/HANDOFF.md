@@ -22,3 +22,16 @@ Append-only coordination record for Claude Code, Codex and Ihor.
 - **Not done:** no product code, supplier contact, spend, VAT registration, merge, push or deploy.
 - **Next owner:** Claude Code should correct docs 00/01/05/14/18 and the PR body so VAT/B2B is
   an accountant- and quote-gated hypothesis rather than the decisive Gate 0 result.
+
+## 2026-08-21 — Codex Admin MVP proposal
+
+- **Branch:** `codex/admin-mvp-spec-proposal`, based on Codex audit commit `1873f66`.
+- **Status:** unapproved proposal; specification only; not pushed, merged or deployed.
+- **Scope:** define the minimum back-office capabilities, workflows, state machines, logical data
+  model, security constraints and first vertical slice for a controlled pilot.
+- **Key boundary:** no technology selected and no production implementation started because
+  D-003–D-008 remain open.
+- **Artifact:** `reviews/2026-08-21-admin-mvp-proposal.uk.md`.
+- **Not done:** no framework, database, UI code, infrastructure, external account or integration.
+- **Next owner:** Ihor decides ADM-01–ADM-08; Claude then promotes approved decisions into the
+  canonical specification; Codex implements only the approved first slice.
