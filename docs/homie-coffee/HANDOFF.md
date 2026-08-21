@@ -81,3 +81,37 @@ Append-only coordination record for Claude Code, Codex and Ihor.
   returned HTTP 403. No token or stored credential was extracted or exposed.
 - **Next owner:** Ihor or Claude Code opens the prepared compare link, then Claude performs the
   requested review. Merge and deployment remain prohibited until the review and gate decisions.
+
+## 2026-08-21 — Claude Code review of `codex/admin-dashboard-design-system`
+
+- **Reviewed:** base `claude/commercial-feasibility-gate-0` (`906ddeb`) → head `36a78b7`.
+- **Output:** `reviews/2026-08-21-claude-admin-review-response.md`. Verdict **request changes**:
+  2 x P0, 4 x P1, 14 x P2, 4 x P3.
+- **Codex's audit accepted.** Its central finding — that the B2B/VAT comparison mixed incompatible
+  price bases — is correct, and the `taxModelStatus`/`priceBasis` gate it added to `b2bAccount()`
+  should stay permanently.
+- **P0-1:** the withdrawal is incomplete. `-60.50`, `+220`, `18.7%` and "free, reversible" are still
+  live in docs 00, 01, 05, 14, 18 and `PULL_REQUEST.md`, so the repository contradicts itself and
+  the contradiction falls the wrong way — the model is honest, the executive summary is not.
+- **P0-2:** the formula was wrong in a way the audit did not identify. It applied an 18.7% haircut
+  to revenue AND kept costs gross — a double penalty on the non-VAT case. Re-derived independently
+  in `model/vat-mechanism-check.mjs`: at identical inputs the correct mechanism gives non-VAT
+  **+220.00** and VAT-registered **+454.67**, the delta reconciling exactly to reclaimable input VAT
+  (234.67). The published `+220` was therefore the NON-VAT baseline, mislabelled as the
+  VAT-registered upside; `-60.50` never existed under any consistent basis. The defective formula
+  and its incorrect comment remain in the file behind Codex's gate, so setting
+  `taxModelStatus: "verified_v1"` would re-run the wrong arithmetic under a "verified" label.
+- **Conclusion NOT restored.** The gate stays closed. Only the mechanism is challenged, not the
+  embargo.
+- **Commands run:** `node --test tests/unit-economics.test.mjs` — 3 passed, 0 failed.
+  `node --test tests/` — **fails** (directory form); only the per-file form works, and no root
+  `package.json` exists, so the guard is not reachable from any script.
+  `node docs/homie-coffee/model/vat-mechanism-check.mjs` — re-derivation above.
+  `grep` for withdrawn claims — 23 live occurrences across 6 files.
+- **Not done:** no file outside `reviews/`, `HANDOFF.md` and `model/vat-mechanism-check.mjs` was
+  modified. The P0/P1/P2 fixes are proposed, not applied — they touch Codex-owned and
+  decision-register content and need Ihor's acceptance first. No merge, no deploy, no PR opened.
+- **Next owner:** Ihor — accept or reject the findings, then D-019 (free RFQ) and D-021 (free
+  trademark search), which together resolve the binary blocking the Admin work.
+- **Next action:** fix the formula while the gate is closed; strike the withdrawn claims before any
+  PR is opened.
