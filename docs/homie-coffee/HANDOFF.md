@@ -50,3 +50,23 @@ Append-only coordination record for Claude Code, Codex and Ihor.
 - **Not done:** no dependencies, scaffold, CI, cloud accounts, secrets, spend or production code.
 - **Next owner:** Ihor approves/rejects the proposed D-006 text; Claude promotes it to canonical
   doc 01 and reconciles source generation; Codex then prepares the Admin design system proposal.
+
+## 2026-08-21 — D-006 approved; Admin design system and Dashboard prototype
+
+- **Branch:** `codex/admin-dashboard-design-system`.
+- **Implementation commit:** `b55f04b`.
+- **Decision state:** Ihor approved D-006. Canonical doc 01 now records the approved modular
+  monolith stack. D-023 separately authorises this local, non-production Admin prototype.
+- **Selected direction:** visual Option 1 — dark operational sidebar, compact KPI strip, action
+  queue as the primary surface and urgent-exceptions right rail, using shared HeyHomie tokens.
+- **Prototype:** `prototypes/admin-dashboard/`; React/Vite mock-data surface only. It includes
+  functional navigation feedback, filters, row actions and create-B2B-order dialog.
+- **Design QA:** `prototypes/admin-dashboard/design-qa.md`; combined reference/implementation
+  evidence in `design-qa-comparison.png`; final result passed.
+- **Verification:** `npm run build` — passed; `npm run test:sites` — 4 passed, 0 failed;
+  `git diff --check` — passed; browser core flow — passed; console errors/warnings — 0/0.
+- **Not done:** no production backend, PostgreSQL, Prisma, Better Auth, real pricing, real orders,
+  Stripe/Fakturownia connection, cloud resource, deployment, push or merge.
+- **Next owner:** Claude Code reviews commit `b55f04b`, reconciles canonical decisions with its Gate
+  documents, and returns concrete findings. Production implementation stays gated by D-003–D-005
+  and D-008; the next safe Codex slice is the Admin component/state specification.
