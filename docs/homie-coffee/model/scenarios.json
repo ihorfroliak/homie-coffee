@@ -1,0 +1,195 @@
+{
+  "_README": "Scenario overrides. `supplyModel` selects an entry of params.supplyModels. `prices` are OUR retail prices in PLN. `overrides` deep-merges into params, so a scenario can change any input. Conservative must be genuinely pessimistic — if it looks comfortable, it is not conservative.",
+  "_pricingBasis": "All three price ladders sit inside the VERIFIED Polish accessible-speciality band of 120-190 PLN/kg (CMP-46) and respect the two verified market regularities: 1 kg undercuts 250 g by 9-28% per kg, and the 149 PLN free-delivery threshold forces the basket towards 1 kg or three bags.",
+  "conservative": {
+    "_stance": "The verified private-label cost is real and does not improve. We have no brand, so we price at the LOW end of accessible speciality to get a first order. Repeat behaviour matches the discouraging Polish loyalty evidence. Founder labour is costed at a real rate.",
+    "supplyModel": "contractRoastPrivateLabel",
+    "prices": {
+      "price250": 39.0,
+      "price250x2": 74.0,
+      "price250x3": 108.0,
+      "price500": 70.0,
+      "price1kg": 129.0,
+      "priceDiscovery": 42.0
+    },
+    "overrides": {
+      "supplyModels": {
+        "contractRoastPrivateLabel": {
+          "costPerKgRoastedGross": {
+            "value": 124.0,
+            "src": "SUP-05 (verified, unimproved)"
+          }
+        }
+      },
+      "fulfilment": {
+        "founderHourlyOpportunityCost": {
+          "value": 50,
+          "src": "ASSUMPTION(A7)"
+        },
+        "outerBoxOrMailer": {
+          "value": 3.0,
+          "src": "ASSUMPTION(gap, high end)"
+        }
+      },
+      "allowances": {
+        "refundAndDamageRate": {
+          "value": 0.05,
+          "src": "COST-28 all-category low end"
+        },
+        "averageDiscountRate": {
+          "value": 0.1,
+          "src": "ASSUMPTION(BM-16: 34% buy only on promotion)"
+        }
+      },
+      "acquisition": {
+        "repeatRateOrder2": {
+          "value": 0.15,
+          "src": "ASSUMPTION(BM-16)"
+        },
+        "repeatRateOrder3": {
+          "value": 0.35,
+          "src": "ASSUMPTION(BM-16)"
+        }
+      }
+    }
+  },
+  "base": {
+    "_stance": "A negotiated contract-roasting price somewhat better than the single public quote, priced at the middle of accessible speciality, ordinary repeat behaviour, founder labour not charged (cash view).",
+    "supplyModel": "contractRoastPrivateLabel",
+    "prices": {
+      "price250": 42.0,
+      "price250x2": 79.0,
+      "price250x3": 115.0,
+      "price500": 75.0,
+      "price1kg": 139.0,
+      "priceDiscovery": 45.0
+    },
+    "overrides": {
+      "supplyModels": {
+        "contractRoastPrivateLabel": {
+          "costPerKgRoastedGross": {
+            "value": 110.0,
+            "src": "ASSUMPTION(A1) — NOT VERIFIED. Assumes a quote ~11% better than the one public figure."
+          }
+        }
+      }
+    }
+  },
+  "optimistic": {
+    "_stance": "Good negotiated supply, priced at the upper end of accessible speciality, strong repeat. A CEILING, not a plan.",
+    "supplyModel": "contractRoastPrivateLabel",
+    "prices": {
+      "price250": 45.0,
+      "price250x2": 85.0,
+      "price250x3": 124.0,
+      "price500": 82.0,
+      "price1kg": 149.0,
+      "priceDiscovery": 49.0
+    },
+    "overrides": {
+      "supplyModels": {
+        "contractRoastPrivateLabel": {
+          "costPerKgRoastedGross": {
+            "value": 95.0,
+            "src": "ASSUMPTION(A1) — NOT VERIFIED. Assumes volume terms a startup has no history to justify."
+          }
+        }
+      },
+      "allowances": {
+        "refundAndDamageRate": {
+          "value": 0.02,
+          "src": "ASSUMPTION"
+        },
+        "averageDiscountRate": {
+          "value": 0.03,
+          "src": "ASSUMPTION"
+        }
+      },
+      "acquisition": {
+        "repeatRateOrder2": {
+          "value": 0.4,
+          "src": "ASSUMPTION"
+        },
+        "repeatRateOrder3": {
+          "value": 0.6,
+          "src": "ASSUMPTION"
+        }
+      }
+    }
+  },
+  "resale": {
+    "_stance": "Sanity check on Route B — reselling someone else's brand. Cost is DERIVED, not public, so this scenario is illustrative only. Included because it shows whether resale is even worth quoting for.",
+    "supplyModel": "wholesaleResale",
+    "prices": {
+      "price250": 42.0,
+      "price250x2": 79.0,
+      "price250x3": 115.0,
+      "price500": 75.0,
+      "price1kg": 139.0,
+      "priceDiscovery": 45.0
+    },
+    "overrides": {}
+  },
+  "baseVatRegistered": {
+    "_stance": "Identical to base, except the company registers for VAT voluntarily. Isolates ONE variable: the B2B price handicap a non-VAT payer carries (REG-10). B2C rows are unchanged and can be ignored here.",
+    "supplyModel": "contractRoastPrivateLabel",
+    "prices": {
+      "price250": 42.0,
+      "price250x2": 79.0,
+      "price250x3": 115.0,
+      "price500": 75.0,
+      "price1kg": 139.0,
+      "priceDiscovery": 45.0
+    },
+    "overrides": {
+      "supplyModels": {
+        "contractRoastPrivateLabel": {
+          "costPerKgRoastedGross": {
+            "value": 110.0,
+            "src": "ASSUMPTION(A1)"
+          }
+        }
+      },
+      "b2b": {
+        "vatRegistered": {
+          "value": true,
+          "src": "scenario — voluntary registration"
+        }
+      }
+    }
+  },
+  "conservativeVatRegistered": {
+    "_stance": "The VERIFIED cost of 124 PLN/kg, founder labour charged, but VAT-registered. The honest worst case for a B2B-led plan.",
+    "supplyModel": "contractRoastPrivateLabel",
+    "prices": {
+      "price250": 39.0,
+      "price250x2": 74.0,
+      "price250x3": 108.0,
+      "price500": 70.0,
+      "price1kg": 129.0,
+      "priceDiscovery": 42.0
+    },
+    "overrides": {
+      "supplyModels": {
+        "contractRoastPrivateLabel": {
+          "costPerKgRoastedGross": {
+            "value": 124.0,
+            "src": "SUP-05 verified"
+          }
+        }
+      },
+      "fulfilment": {
+        "founderHourlyOpportunityCost": {
+          "value": 50,
+          "src": "ASSUMPTION(A7)"
+        }
+      },
+      "b2b": {
+        "vatRegistered": {
+          "value": true,
+          "src": "scenario — voluntary registration"
+        }
+      }
+    }
+  }
+}

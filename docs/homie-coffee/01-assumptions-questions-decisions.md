@@ -1,6 +1,6 @@
 # 01 — Assumptions, Open Questions and Decisions
 
-**Status:** Commercial Feasibility Gate 0 in progress. Market research is running; no market claim
+**Status:** Commercial Feasibility Gate 0 **complete** — conclusion **GO WITH CONDITIONS** (B2B-led) / **NO-GO** (paid-acquisition B2C). See [`18-commercial-feasibility-gate.md`](18-commercial-feasibility-gate.md). Market research is running; no market claim
 is a fact until it appears in `sources.md` with a link, a publication date and an access date.
 
 **Owner of every decision below:** Ihor (product owner).
@@ -163,6 +163,13 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 | **D-013** | **No GitHub Actions, secrets, API keys, production infrastructure, application scaffolding or external accounts** | **DECIDED 2026-08-20** | Ihor | Gate 0 must prove the economics before any credential exists |
 | **D-014** | **Work proceeds on branch `claude/commercial-feasibility-gate-0` via pull request. No direct commits to `main`. Claude Code must not merge.** | **DECIDED 2026-08-20** | Ihor | |
 | **D-015** | **No supplier, roaster or business may be contacted without Ihor's explicit approval** | **DECIDED 2026-08-20** | Ihor | Outreach templates may be drafted, not sent |
+| **D-016** | **Register Omnomnom sp. z o.o. for VAT voluntarily** | ⚠ **open — Claude Code recommends YES if B2B proceeds** | Ihor | Worth ~280 PLN/month per 10 kg B2B account. A non-VAT payer gives a business buyer nothing to deduct (REG-10). Gates the whole B2B channel. |
+| **D-017** | **Invert the launch order: B2B first, B2C second and organic** | ⚠ **open — Claude Code recommends YES** | Ihor | Contradicts A4. Paid-search B2C is arithmetically unavailable; B2B clears its hurdle at the verified worst-case cost. |
+| **D-018** | **Authorise ≤2,000 PLN validation, none of it on advertising** | ⚠ open | Ihor | At a 69.30 PLN median CPA, 2,000 PLN buys ~29 acquisitions — useless for measuring repeat and loss-making per order. |
+| **D-019** | **Approve sending the drafted RFQ to 5 named roasters** (partial lift of D-015) | ⚠ open | Ihor | Free, and closes the single most critical evidence gap (cost per kg). |
+| **D-020** | Approve the ~850 PLN private-label pilot batch | ⚠ open, after D-019 | Ihor | Real product for the field test. |
+| **D-021** | **Trademark search on "Homie" in Nice class 30 before any brand spend** | ⚠ open | Ihor | Currently **unverified** — EUIPO returned 403, TMview reset (REG-27). A conflict affects the whole Homie ecosystem. |
+| **D-022** | Confirm the accountant and lawyer to consult (VAT registration; HeyHomie cross-marketing lawful basis) | ⚠ open | Ihor | REG-10, REG-25/26. |
 
 ---
 

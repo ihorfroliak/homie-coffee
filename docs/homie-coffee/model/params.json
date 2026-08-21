@@ -1,91 +1,227 @@
 {
-  "_README": "Every number here is an INPUT to the Gate 0 unit-economics model. Each carries a `src` field: an assumption ID (A#), a source key from sources.md, or the literal string 'TODO-RESEARCH' while it is still unfilled. Nothing in this file is a fact unless `src` points at sources.md. Edit this file and re-run `node docs/homie-coffee/model/unit-economics.mjs` to recompute every table in doc 05.",
+  "_README": "INPUTS to the Gate 0 unit-economics model. Every value carries `src`: a sources.md key (verified evidence), an assumption ID from doc 01, or ASSUMPTION(...) where a figure was derived because no public source exists. Edit and re-run `node docs/homie-coffee/model/unit-economics.mjs --all`.",
   "_currency": "PLN",
-  "_asOf": "2026-08-20",
-
-  "vat": {
-    "_note": "Omnomnom sp. z o.o. is NOT a VAT payer from 2026-01-01 (F12). Two consequences are modelled: (1) it charges no VAT, so its shelf price IS its net revenue; (2) it CANNOT reclaim input VAT, so VAT paid on coffee, packaging, shipping and fees is a real cost. Both need accountant confirmation.",
-    "isVatPayer": false,
-    "coffeeInputVatRate": { "value": null, "src": "TODO-RESEARCH", "note": "VAT rate on roasted coffee in PL" },
-    "servicesInputVatRate": { "value": 0.23, "src": "TODO-RESEARCH", "note": "standard rate on shipping/packaging/fees" },
-    "exemptionThreshold": { "value": null, "src": "TODO-RESEARCH", "note": "turnover limit before VAT registration is forced" }
-  },
-
+  "_asOf": "2026-08-21",
+  "_vatNote": "Omnomnom sp. z o.o. is NOT a VAT payer from 2026-01-01 (F12). The model therefore works entirely in GROSS costs — input VAT is not reclaimable, so the gross price paid IS the cost — and charges no output VAT, so the shelf price IS net revenue. VAT rates are consequently not model inputs. The legal position, including whether a non-VAT payer can invoice businesses without disadvantaging them, is in doc 14 and needs accountant confirmation.",
+  "_dropshipNote": "Dropshipping was one of three supply routes to price out. It is DELIBERATELY ABSENT from supplyModels: no Polish coffee roaster or wholesaler was found publishing dropshipping terms on its own site (SUP-33). It cannot be modelled without inventing numbers, so it is not modelled.",
   "supplyModels": {
     "contractRoastPrivateLabel": {
-      "label": "Contract roasting / private label",
-      "costPerKgRoastedGross": { "value": null, "src": "TODO-RESEARCH" },
-      "moqKg": { "value": null, "src": "TODO-RESEARCH" },
-      "packagingSuppliedBy": "TODO-RESEARCH",
-      "leadTimeDays": { "value": null, "src": "TODO-RESEARCH" }
+      "label": "Contract roasting / private label, our own brand on the bag",
+      "costPerKgRoastedGross": {
+        "value": 124.0,
+        "src": "SUP-05",
+        "note": "Palarnia Meksyk 31 PLN/250 g. THE ONLY publicly quoted private-label price in Poland, and the source itself calls it an average. The entire gate turns on this number."
+      },
+      "packagingIncluded": {
+        "value": true,
+        "src": "SUP-06",
+        "note": "Meksyk supplies black doypack with zip and degassing valve, and free template label edits — so pouch and label are NOT charged again."
+      },
+      "moqKg": {
+        "value": 5,
+        "src": "SUP-01",
+        "note": "Lafaye: 20 units per SKU, i.e. 5 kg at 250 g; zero minimum with client-supplied labels. DIFFERENT SUPPLIER from the price above — mixing them is optimistic and is flagged as such."
+      },
+      "leadTimeDays": {
+        "value": 16,
+        "src": "SUP-06",
+        "note": "Meksyk 'po kilkunastu dniach', midpoint of ~12-19."
+      }
     },
     "wholesaleResale": {
-      "label": "Wholesale resale of an existing roaster's product",
-      "costPerKgRoastedGross": { "value": null, "src": "TODO-RESEARCH" },
-      "moqKg": { "value": null, "src": "TODO-RESEARCH" },
-      "packagingSuppliedBy": "supplier",
-      "leadTimeDays": { "value": null, "src": "TODO-RESEARCH" }
-    },
-    "dropship": {
-      "label": "Dropshipping",
-      "costPerKgRoastedGross": { "value": null, "src": "TODO-RESEARCH" },
-      "moqKg": { "value": 0, "src": "definition" },
-      "packagingSuppliedBy": "supplier",
-      "leadTimeDays": { "value": null, "src": "TODO-RESEARCH" }
+      "label": "Wholesale resale of an existing roaster's product, under THEIR brand",
+      "costPerKgRoastedGross": {
+        "value": 120.0,
+        "src": "ASSUMPTION(SUP-21,SUP-28)",
+        "note": "NOT PUBLIC. Zero of eight wholesalers publish PLN/kg (SUP-32). Derived: Polish roaster DTC retail 125-175 PLN/kg (SUP-28) less the ~12-20% reseller discount that is published (SUP-21). Wide error bar; treat as illustrative only."
+      },
+      "packagingIncluded": {
+        "value": true,
+        "src": "SUP-35",
+        "note": "Supplier's own retail packaging. No wholesale programme found permits relabelling, so this route cannot build our brand."
+      },
+      "moqKg": {
+        "value": 2,
+        "src": "SUP-21",
+        "note": "Hurtownia Kawy i Herbaty: 300 PLN net minimum order, which is roughly 2-3 kg at these prices."
+      },
+      "leadTimeDays": {
+        "value": 3,
+        "src": "ASSUMPTION(A1)",
+        "note": "Stocked goods ship faster than roast-to-order. Not sourced."
+      }
     }
   },
-
   "packagingPerBag": {
-    "pouch250g": { "value": null, "src": "TODO-RESEARCH" },
-    "pouch1kg": { "value": null, "src": "TODO-RESEARCH" },
-    "label": { "value": null, "src": "TODO-RESEARCH" }
+    "_note": "Used only when the supply model does NOT include packaging. Plain pouch plus applied label; custom-printed pouches are quote-only at every Polish producer checked, so that fork is unpriced.",
+    "pouch250g": {
+      "value": 1.52,
+      "src": "COST-24",
+      "note": "Arkom, plain 250 g doypack with degassing valve, 152 PLN/100 szt at MOQ 100."
+    },
+    "pouch1kg": {
+      "value": 2.22,
+      "src": "COST-25",
+      "note": "Same supplier, 1 kg doypack with valve, 222 PLN/100 szt."
+    },
+    "label": {
+      "value": 1.0,
+      "src": "COST-27",
+      "note": "Samart digital print, 11-30 cm2, 1.00 PLN/szt at 1000 szt (netto, +23% VAT which we cannot reclaim). At 100 szt it is 2.30 PLN."
+    }
   },
-
   "fulfilment": {
-    "outerBoxOrMailer": { "value": null, "src": "TODO-RESEARCH" },
-    "packMinutesPerOrder": { "value": null, "src": "A7" },
-    "founderHourlyOpportunityCost": { "value": null, "src": "A7", "note": "Set to 0 to see cash-only margin; set to a real rate to see whether the founder's time is being destroyed." }
+    "outerBoxOrMailer": {
+      "value": 1.5,
+      "src": "ASSUMPTION(gap)",
+      "note": "NOT SOURCED. Outer carton, filler and tape were explicitly excluded from every cost page found; the research flagged 1-3 PLN as plausible. Sensitivity-tested in doc 05."
+    },
+    "packMinutesPerOrder": {
+      "value": 6,
+      "src": "ASSUMPTION(A7)",
+      "note": "Not sourced. Pick, pack, label, book the parcel."
+    },
+    "founderHourlyOpportunityCost": {
+      "value": 0,
+      "src": "A7",
+      "note": "ZERO in the base view, which shows CASH contribution only. The labour-loaded view is a scenario override, because A7 says the model must expose any full-time-founder dependency rather than hide it."
+    }
   },
-
   "shipping": {
-    "b2cParcelCost": { "value": null, "src": "TODO-RESEARCH", "note": "what WE pay per parcel" },
-    "b2cParcelPriceCharged": { "value": null, "src": "TODO-RESEARCH", "note": "what the customer pays below the free threshold" },
-    "freeShippingThreshold": { "value": null, "src": "TODO-RESEARCH", "note": "market norm; the model solves for the viable one" },
-    "codSurcharge": { "value": null, "src": "TODO-RESEARCH" },
-    "codShareOfOrders": { "value": null, "src": "TODO-RESEARCH" },
-    "b2bDeliveryCostPerDrop": { "value": null, "src": "TODO-RESEARCH" }
+    "b2cParcelCost": {
+      "value": 11.09,
+      "src": "COST-09",
+      "note": "Furgonetka business rate for InPost Paczkomat gabaryt A, netto. Cheapest verified route requiring no carrier contract. NB Furgonetka's own netto/brutto columns do not reconcile at 23% (COST gap), so the landed figure may be higher."
+    },
+    "b2cParcelPriceCharged": {
+      "value": 12.99,
+      "src": "ASSUMPTION(CMP)",
+      "note": "Within the observed market range: Swiezo Palona 9.90, Figa 10.00, Coffeedesk 9.99-14.99."
+    },
+    "freeShippingThreshold": {
+      "value": 149.0,
+      "src": "CMP-45",
+      "note": "Median and modal Polish consumer threshold across 11 verified stores; working band 129-159."
+    },
+    "codSurcharge": {
+      "value": 2.49,
+      "src": "COST-11",
+      "note": "Furgonetka standard cash-on-delivery, lowest tier."
+    },
+    "codShareOfOrders": {
+      "value": 0.1,
+      "src": "ASSUMPTION(gap)",
+      "note": "NOT SOURCED for coffee. BLIK at 72% of PL e-commerce transactions implies prepayment dominates; 10% COD is a conservative placeholder."
+    },
+    "b2bDeliveryCostPerDrop": {
+      "value": 15.0,
+      "src": "ASSUMPTION(gap)",
+      "note": "Not sourced. A local Krakow drop. Payment terms and B2B logistics pricing could not be established publicly (B2B gap)."
+    }
   },
-
   "payments": {
-    "cardFeeRate": { "value": null, "src": "TODO-RESEARCH" },
-    "cardFeeFixed": { "value": null, "src": "TODO-RESEARCH" },
-    "blikFeeRate": { "value": null, "src": "TODO-RESEARCH" },
-    "blikShareOfOrders": { "value": null, "src": "TODO-RESEARCH" }
+    "cardFeeRate": {
+      "value": 0.015,
+      "src": "COST-16",
+      "note": "Stripe Poland, standard EEA cards."
+    },
+    "cardFeeFixed": {
+      "value": 1.0,
+      "src": "COST-16",
+      "note": "Stripe's fixed 1.00 PLN is the dominant payment cost on small Polish baskets."
+    },
+    "blikFeeRate": {
+      "value": 0.016,
+      "src": "COST-17",
+      "note": "Stripe Poland BLIK, 1.6% + 1.00 PLN. Przelewy24 (1.9%) and PayU (1.19% + 0.09) are reportedly cheaper but both official pricing pages were unreachable, so those are unverified."
+    },
+    "blikShareOfOrders": {
+      "value": 0.72,
+      "src": "COST-20",
+      "note": "BLIK was ~72% of Polish e-commerce transactions by count in Q1 2026 on NBP data."
+    }
   },
-
   "allowances": {
-    "refundAndDamageRate": { "value": null, "src": "TODO-RESEARCH" },
-    "averageDiscountRate": { "value": null, "src": "A8" },
-    "supportMinutesPerOrder": { "value": null, "src": "A7" }
+    "refundAndDamageRate": {
+      "value": 0.03,
+      "src": "ASSUMPTION(COST-28)",
+      "note": "Alsendo 2026 puts all-category Polish returns at 5-7%, but that sample is fashion-weighted and coffee has no size-fit returns. 3% is a judgement below the all-category figure; no food-specific or damage-rate benchmark exists (COST gap)."
+    },
+    "averageDiscountRate": {
+      "value": 0.05,
+      "src": "ASSUMPTION(A8)",
+      "note": "Blended effect of welcome codes and promotions. Note 34% of Polish consumers buy a brand only on promotion (BM-16), so this may be badly optimistic."
+    },
+    "supportMinutesPerOrder": {
+      "value": 2,
+      "src": "ASSUMPTION(A7)",
+      "note": "Not sourced."
+    }
   },
-
   "b2b": {
-    "_note": "A3 correction: a warm channel is NOT zero-CAC. Sales labour, samples, discounts, delivery and account management are costed explicitly here.",
-    "pricePerKg": { "value": null, "src": "TODO-RESEARCH" },
-    "salesHoursPerWonAccount": { "value": null, "src": "A3" },
-    "sampleCostPerProspect": { "value": null, "src": "A3" },
-    "prospectsPerWonAccount": { "value": null, "src": "A3" },
-    "accountManagementHoursPerMonth": { "value": null, "src": "A3" },
-    "monthlyChurnRate": { "value": null, "src": "A3" }
+    "_note": "A3 correction: a warm channel is NOT zero-CAC — sales labour, samples, delivery and account management are costed explicitly. Sizes 5/10/20 kg span an office (3-4 kg/month per 20 staff, B2B-16) to a hotel (17.6 kg/month, B2B-22).",
+    "pricePerKg": {
+      "value": 150.0,
+      "src": "B2B-14",
+      "note": "Polish HoReCa bean ladder: 45-65 economy, 65-95 standard gastro, 95-140 premium, 120-180+ speciality PLN/kg. 150 is mid-speciality."
+    },
+    "vatRegistered": {
+      "value": false,
+      "src": "F12",
+      "note": "Omnomnom sp. z o.o. is NOT a VAT payer. Set true to see the B2B economics after voluntary registration."
+    },
+    "nonVatPayerPriceHandicap": {
+      "value": 0.187,
+      "src": "REG-10",
+      "note": "1 - 1/1.23. A VAT-registered business buyer deducts input VAT from a registered supplier but has nothing to deduct from us, so our price must be ~18.7% lower to cost that buyer the same. Applied to B2B revenue only; consumers are unaffected and it is a small ADVANTAGE there."
+    },
+    "salesHoursPerWonAccount": {
+      "value": 6,
+      "src": "ASSUMPTION(A3)",
+      "note": "Not sourced. Prospecting, sample drop, follow-up, close."
+    },
+    "sampleCostPerProspect": {
+      "value": 25.0,
+      "src": "ASSUMPTION(A3)",
+      "note": "Not sourced. ~200 g plus delivery or a personal drop."
+    },
+    "prospectsPerWonAccount": {
+      "value": 5,
+      "src": "ASSUMPTION(A3)",
+      "note": "Not sourced. Implies a 20% close rate on sampled prospects."
+    },
+    "accountManagementHoursPerMonth": {
+      "value": 0.5,
+      "src": "ASSUMPTION(A3)"
+    },
+    "monthlyChurnRate": {
+      "value": 0.05,
+      "src": "ASSUMPTION(A3)",
+      "note": "Not sourced. Beans-only carries NO contractual lock-in, unlike the 12-36 month bundled contracts (B2B-06, B2B-19) — so churn should be assumed HIGHER than the incumbents', not lower."
+    }
   },
-
   "acquisition": {
-    "assumedCpc": { "value": null, "src": "TODO-RESEARCH" },
-    "assumedConversionRate": { "value": null, "src": "TODO-RESEARCH" },
-    "repeatRateOrder2": { "value": null, "src": "A9" },
-    "repeatRateOrder3": { "value": null, "src": "A9" }
+    "assumedCpc": {
+      "value": 1.58,
+      "src": "BM-17",
+      "note": "Weighted average Polish Search CPC across 4,976 campaigns. No coffee-category breakdown exists (BM gap); coffee competes against Nespresso, Lavazza, Jacobs and Allegro."
+    },
+    "assumedConversionRate": {
+      "value": 0.014,
+      "src": "BM-12",
+      "note": "Polish small-shop (<100k PLN/mo) median session conversion. Sample contains NO food category, so this may understate coffee."
+    },
+    "repeatRateOrder2": {
+      "value": 0.3,
+      "src": "ASSUMPTION(A9)",
+      "note": "NOT SOURCED. No Polish coffee repeat-rate benchmark was found. Only ~11% of Polish consumers qualify as genuinely loyal and 34% buy only on promotion (BM-16), so 30% may be generous. This is the assumption the whole business case rests on and it is the weakest number in the file."
+    },
+    "repeatRateOrder3": {
+      "value": 0.5,
+      "src": "ASSUMPTION(A9)",
+      "note": "NOT SOURCED. Conditional on having ordered twice."
+    }
   },
-
   "validationBudgetCeilings": {
     "_note": "A2. Scenario ceilings, NOT committed budgets. The rejected 40-60k PLN figure must never reappear.",
     "lean": 2000,

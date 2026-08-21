@@ -2,17 +2,16 @@
 /**
  * Homie Coffee — Gate 0 unit-economics model.
  *
- * This is ANALYSIS, not application code. Zero dependencies, no framework, no build step.
+ * ANALYSIS, not application code. Zero dependencies, no framework, no build step.
  * It exists so the numbers in `05-business-model-and-unit-economics.md` can be re-computed and
  * challenged rather than taken on trust.
  *
- *   node docs/homie-coffee/model/unit-economics.mjs            # base scenario
- *   node docs/homie-coffee/model/unit-economics.mjs --all      # all three scenarios
- *   node docs/homie-coffee/model/unit-economics.mjs --markdown # markdown tables for doc 05
+ *   node docs/homie-coffee/model/unit-economics.mjs          # base scenario
+ *   node docs/homie-coffee/model/unit-economics.mjs --all    # every scenario
  *
- * Inputs live in `params.json` and `scenarios.json`. Every input carries a `src`: an assumption
- * ID, a sources.md key, or TODO-RESEARCH. Anything still TODO-RESEARCH is reported as a hole,
- * never silently defaulted to a flattering number.
+ * Inputs live in `params.json` and `scenarios.json`. Every input carries a `src`: a sources.md
+ * key, an assumption ID, or ASSUMPTION(...). Any unresolved input halts the model rather than
+ * being silently defaulted to a flattering number.
  */
 
 import { readFileSync } from 'node:fs'
@@ -22,13 +21,13 @@ import { dirname, join } from 'node:path'
 const HERE = dirname(fileURLToPath(import.meta.url))
 const read = (f) => JSON.parse(readFileSync(join(HERE, f), 'utf8'))
 
-const PLN = (n) => (n === null || Number.isNaN(n) ? '—' : `${n.toFixed(2)}`)
-const PCT = (n) => (n === null || Number.isNaN(n) ? '—' : `${(n * 100).toFixed(1)}%`)
+const PLN = (n) => (n === null || n === undefined || Number.isNaN(n) ? '—' : n.toFixed(2))
+const PCT = (n) => (n === null || n === undefined || Number.isNaN(n) ? '—' : `${(n * 100).toFixed(1)}%`)
 
 /** Pull a value out of a `{value, src}` node. Returns null when unresolved. */
 function v(node) {
   if (node === null || node === undefined) return null
-  if (typeof node === 'number') return node
+  if (typeof node === 'number' || typeof node === 'boolean') return node
   if (typeof node === 'object' && 'value' in node) return node.value
   return null
 }
@@ -37,9 +36,7 @@ function v(node) {
 function findHoles(obj, path = [], out = []) {
   if (obj && typeof obj === 'object') {
     if ('value' in obj && 'src' in obj) {
-      if (obj.value === null || obj.src === 'TODO-RESEARCH') {
-        out.push({ path: path.join('.'), src: obj.src })
-      }
+      if (obj.value === null || obj.src === 'TODO-RESEARCH') out.push({ path: path.join('.'), src: obj.src })
       return out
     }
     for (const [k, val] of Object.entries(obj)) {
@@ -50,11 +47,20 @@ function findHoles(obj, path = [], out = []) {
   return out
 }
 
+/** Deep-merge a scenario's `overrides` onto the base params without mutating them. */
+function merge(base, over) {
+  if (over === null || over === undefined) return base
+  if (typeof base !== 'object' || base === null || Array.isArray(base)) return over
+  const out = { ...base }
+  for (const [k, val] of Object.entries(over)) out[k] = k in base ? merge(base[k], val) : val
+  return out
+}
+
 /**
  * One B2C order.
  *
- * Contribution margin = revenue kept after everything that scales with the order, BEFORE
- * acquisition cost. Acquisition is then compared against it — that comparison is the whole point.
+ * Contribution = what the order keeps after everything that scales with it, BEFORE acquisition
+ * cost. Acquisition is then compared against that. The comparison is the whole point of the gate.
  */
 export function b2cOrder({ p, s, shape }) {
   const grossRevenue = shape.price
@@ -65,18 +71,22 @@ export function b2cOrder({ p, s, shape }) {
     ? 0
     : (v(p.shipping.b2cParcelPriceCharged) ?? 0)
 
+  // Non-VAT payer: no output VAT is charged, so the shelf price IS net revenue.
   const revenue = netRevenue + shippingCharged
 
-  // Cost of the coffee itself. A non-VAT payer cannot reclaim input VAT, so the gross cost is
-  // the real cost — this is modelled, not glossed over.
+  // Non-VAT payer: input VAT is not reclaimable, so every cost below is the GROSS price paid.
   const kg = shape.grams / 1000
   const coffeeCost = kg * (v(p.supplyModels[s.supplyModel].costPerKgRoastedGross) ?? NaN)
 
   const bags = shape.bags ?? 1
-  const pouchCost = bags * (shape.grams / bags >= 1000
-    ? (v(p.packagingPerBag.pouch1kg) ?? NaN)
-    : (v(p.packagingPerBag.pouch250g) ?? NaN))
-  const labelCost = bags * (v(p.packagingPerBag.label) ?? NaN)
+  // When the roaster supplies packaging and applies our label, pouch and label are already inside
+  // the per-kg price and must not be charged twice.
+  const packIncluded = v(p.supplyModels[s.supplyModel].packagingIncluded) === true
+  const perBagGrams = shape.grams / bags
+  const pouchCost = packIncluded
+    ? 0
+    : bags * (perBagGrams >= 1000 ? (v(p.packagingPerBag.pouch1kg) ?? NaN) : (v(p.packagingPerBag.pouch250g) ?? NaN))
+  const labelCost = packIncluded ? 0 : bags * (v(p.packagingPerBag.label) ?? NaN)
   const outerCost = v(p.fulfilment.outerBoxOrMailer) ?? NaN
 
   const shippingCost = (v(p.shipping.b2cParcelCost) ?? NaN)
@@ -85,7 +95,7 @@ export function b2cOrder({ p, s, shape }) {
   const blikShare = v(p.payments.blikShareOfOrders) ?? 0
   const paymentCost =
     revenue * ((v(p.payments.cardFeeRate) ?? NaN) * (1 - blikShare) + (v(p.payments.blikFeeRate) ?? NaN) * blikShare)
-    + (v(p.payments.cardFeeFixed) ?? 0) * (1 - blikShare)
+    + (v(p.payments.cardFeeFixed) ?? 0)
 
   const refundCost = revenue * (v(p.allowances.refundAndDamageRate) ?? 0)
 
@@ -98,44 +108,45 @@ export function b2cOrder({ p, s, shape }) {
   const contribution = grossMargin - variableCosts
 
   return {
-    shape: shape.label,
+    shape: shape.label, grams: shape.grams,
     grossRevenue, discount, shippingCharged, revenue,
     coffeeCost, packagingCost: pouchCost + labelCost + outerCost, cogs,
     shippingCost, paymentCost, refundCost, labourCost, variableCosts,
     grossMargin, grossMarginRate: grossMargin / revenue,
     contribution, contributionRate: contribution / revenue,
-    // The two numbers that actually govern advertising decisions:
     breakEvenCac: contribution,
-    breakEvenRoas: revenue / contribution,
+    breakEvenRoas: contribution > 0 ? revenue / contribution : null,
   }
 }
 
-/** Lifetime view: does order 1 + expected repeats pay back an acquisition cost? */
+/** Lifetime view: does order 1 plus expected repeats pay back an acquisition cost? */
 export function cohort({ p, order, cac }) {
   const r2 = v(p.acquisition.repeatRateOrder2) ?? 0
   const r3 = v(p.acquisition.repeatRateOrder3) ?? 0
   const c = order.contribution
-  const afterFirst = c - cac
-  const afterSecond = c * (1 + r2) - cac
-  const afterThird = c * (1 + r2 + r2 * r3) - cac
   const ltvContribution = c * (1 + r2 + r2 * r3)
   return {
-    cac, afterFirst, afterSecond, afterThird, ltvContribution,
-    paybackOrder: afterFirst >= 0 ? 1 : afterSecond >= 0 ? 2 : afterThird >= 0 ? 3 : null,
+    cac,
+    afterFirst: c - cac,
+    afterSecond: c * (1 + r2) - cac,
+    afterThird: ltvContribution - cac,
+    ltvContribution,
+    paybackOrder: c - cac >= 0 ? 1 : c * (1 + r2) - cac >= 0 ? 2 : ltvContribution - cac >= 0 ? 3 : null,
     ltvToCac: cac > 0 ? ltvContribution / cac : null,
   }
 }
 
 /** One B2B account, costed honestly — a warm lead is not a free lead (A3 correction). */
 export function b2bAccount({ p, monthlyKg }) {
-  const pricePerKg = v(p.b2b.pricePerKg) ?? NaN
-  const revenue = monthlyKg * pricePerKg
+  // A non-VAT payer gives a VAT-registered buyer nothing to deduct, so the list price must be cut
+  // to cost that buyer the same as a registered supplier's. Consumers are unaffected (REG-10).
+  const handicap = v(p.b2b.vatRegistered) === true ? 0 : (v(p.b2b.nonVatPayerPriceHandicap) ?? 0)
+  const revenue = monthlyKg * (v(p.b2b.pricePerKg) ?? NaN) * (1 - handicap)
   const coffeeCost = monthlyKg * (v(p.supplyModels.contractRoastPrivateLabel.costPerKgRoastedGross) ?? NaN)
   const delivery = v(p.shipping.b2bDeliveryCostPerDrop) ?? NaN
   const rate = v(p.fulfilment.founderHourlyOpportunityCost) ?? 0
 
-  const acquisitionCost =
-    (v(p.b2b.salesHoursPerWonAccount) ?? 0) * rate
+  const acquisitionCost = (v(p.b2b.salesHoursPerWonAccount) ?? 0) * rate
     + (v(p.b2b.sampleCostPerProspect) ?? 0) * (v(p.b2b.prospectsPerWonAccount) ?? 0)
 
   const monthlyServiceCost = (v(p.b2b.accountManagementHoursPerMonth) ?? 0) * rate
@@ -145,8 +156,7 @@ export function b2bAccount({ p, monthlyKg }) {
   const expectedMonths = churn > 0 ? 1 / churn : null
 
   return {
-    monthlyKg, revenue, coffeeCost, delivery, monthlyServiceCost, monthlyContribution,
-    acquisitionCost,
+    monthlyKg, revenue, coffeeCost, delivery, monthlyServiceCost, monthlyContribution, acquisitionCost,
     paybackMonths: monthlyContribution > 0 ? acquisitionCost / monthlyContribution : null,
     expectedMonths,
     lifetimeContribution: expectedMonths ? monthlyContribution * expectedMonths - acquisitionCost : null,
@@ -156,75 +166,102 @@ export function b2bAccount({ p, monthlyKg }) {
 // ---------------------------------------------------------------------------
 
 const ORDER_SHAPES = [
-  { label: '1 × 250 g', grams: 250, bags: 1, priceKey: 'price250' },
-  { label: '2 × 250 g bundle', grams: 500, bags: 2, priceKey: 'price250x2' },
-  { label: '3 × 250 g bundle', grams: 750, bags: 3, priceKey: 'price250x3' },
-  { label: '1 × 500 g', grams: 500, bags: 1, priceKey: 'price500' },
-  { label: '1 × 1 kg', grams: 1000, bags: 1, priceKey: 'price1kg' },
-  { label: 'discovery set 3 × 100 g', grams: 300, bags: 3, priceKey: 'priceDiscovery' },
+  { label: '1 x 250 g', grams: 250, bags: 1, priceKey: 'price250' },
+  { label: '2 x 250 g bundle', grams: 500, bags: 2, priceKey: 'price250x2' },
+  { label: '3 x 250 g bundle', grams: 750, bags: 3, priceKey: 'price250x3' },
+  { label: '1 x 500 g', grams: 500, bags: 1, priceKey: 'price500' },
+  { label: '1 x 1 kg', grams: 1000, bags: 1, priceKey: 'price1kg' },
+  { label: 'discovery 3 x 100 g', grams: 300, bags: 3, priceKey: 'priceDiscovery' },
 ]
 
 const B2B_SIZES = [5, 10, 20]
 
+// Verified Polish median cost per acquisition (BM-18).
+const CPA_PMAX = 69.30
+const CPA_SEARCH = 86.46
+
 function run() {
-  const p = read('params.json')
-  let scenarios
-  try {
-    scenarios = read('scenarios.json')
-  } catch {
-    scenarios = null
-  }
+  const baseParams = read('params.json')
+  const scenarios = read('scenarios.json')
 
-  const holes = findHoles(p)
-  const md = process.argv.includes('--markdown')
-
-  if (!md) {
-    console.log('\nHomie Coffee — Gate 0 unit economics')
-    console.log(`params as of ${p._asOf}, currency ${p._currency}\n`)
-  }
-
+  const holes = findHoles(baseParams)
   if (holes.length) {
-    console.log(`## ${holes.length} unresolved input(s) — the model cannot produce trustworthy output yet\n`)
+    console.log(`## ${holes.length} unresolved input(s) — the model cannot produce trustworthy output yet`)
+    console.log('')
     for (const h of holes) console.log(`- \`${h.path}\` — ${h.src}`)
-    console.log('\nFill these in `params.json` from `sources.md`, then re-run.')
-    if (!scenarios) {
-      console.log('\n`scenarios.json` not present yet — conservative/base/optimistic overrides are defined there.')
-    }
     process.exitCode = 1
     return
   }
 
-  const which = process.argv.includes('--all')
-    ? ['conservative', 'base', 'optimistic']
+  const names = process.argv.includes('--all')
+    ? Object.keys(scenarios).filter((k) => !k.startsWith('_'))
     : ['base']
 
-  for (const name of which) {
+  console.log('')
+  console.log(`Homie Coffee — Gate 0 unit economics · params as of ${baseParams._asOf} · PLN`)
+
+  for (const name of names) {
     const s = scenarios[name]
-    console.log(`\n### Scenario: ${name}\n`)
-    console.log('| Order | Revenue | COGS | Gross | Gross % | Variable | Contribution | Contr. % | Break-even CAC | Break-even ROAS |')
-    console.log('|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|')
+    const p = merge(baseParams, s.overrides)
+    const costKg = v(p.supplyModels[s.supplyModel].costPerKgRoastedGross)
+    const labour = v(p.fulfilment.founderHourlyOpportunityCost)
+
+    console.log('')
+    console.log(`### ${name} — ${s.supplyModel} @ ${costKg.toFixed(2)} PLN/kg, founder labour ${labour ? labour + ' PLN/h' : 'not charged'}`)
+    console.log('')
+    console.log('| Order | Revenue | COGS | Gross % | Variable | Contribution | Contr. % | Break-even CAC | Break-even ROAS |')
+    console.log('|---|--:|--:|--:|--:|--:|--:|--:|--:|')
+
+    const orders = []
     for (const shape of ORDER_SHAPES) {
       const price = s.prices[shape.priceKey]
-      if (price === undefined) continue
+      if (price === undefined || price === null) continue
       const o = b2cOrder({ p, s, shape: { ...shape, price } })
-      console.log(
-        `| ${o.shape} | ${PLN(o.revenue)} | ${PLN(o.cogs)} | ${PLN(o.grossMargin)} | ${PCT(o.grossMarginRate)} | ` +
-        `${PLN(o.variableCosts)} | **${PLN(o.contribution)}** | ${PCT(o.contributionRate)} | ${PLN(o.breakEvenCac)} | ${o.breakEvenRoas.toFixed(2)}x |`
-      )
+      orders.push(o)
+      console.log(`| ${o.shape} | ${PLN(o.revenue)} | ${PLN(o.cogs)} | ${PCT(o.grossMarginRate)} | ${PLN(o.variableCosts)} | **${PLN(o.contribution)}** | ${PCT(o.contributionRate)} | ${PLN(o.breakEvenCac)} | ${o.breakEvenRoas ? o.breakEvenRoas.toFixed(2) + 'x' : 'never'} |`)
     }
 
-    console.log('\n| B2B account | Monthly rev. | Monthly contr. | Acquisition cost | Payback (months) | Lifetime contr. |')
+    console.log('')
+    console.log(`Against verified Polish median CPA (BM-18): PMax ${CPA_PMAX}, Search ${CPA_SEARCH}`)
+    console.log('')
+    console.log('| Order | Contribution | After PMax CPA | After Search CPA | Payback order | LTV/CAC @ PMax |')
+    console.log('|---|--:|--:|--:|--:|--:|')
+    for (const o of orders) {
+      const ch = cohort({ p, order: o, cac: CPA_PMAX })
+      console.log(`| ${o.shape} | ${PLN(o.contribution)} | ${PLN(o.contribution - CPA_PMAX)} | ${PLN(o.contribution - CPA_SEARCH)} | ${ch.paybackOrder ?? 'never'} | ${ch.ltvToCac ? ch.ltvToCac.toFixed(2) : '—'} |`)
+    }
+
+    const best = orders.reduce((a, b) => (b.contribution > a.contribution ? b : a))
+    console.log('')
+    console.log(`> Best shape: ${best.shape}, contribution ${PLN(best.contribution)} PLN. A median PMax CPA of ${CPA_PMAX} PLN is ${best.contribution >= CPA_PMAX ? 'COVERED' : 'NOT covered'} by the first order.`)
+
+    console.log('')
+    console.log('| B2B account | Monthly rev. | Monthly contr. | Acquisition cost | Payback (months) | Lifetime contr. |')
     console.log('|---|--:|--:|--:|--:|--:|')
     for (const kg of B2B_SIZES) {
       const a = b2bAccount({ p, monthlyKg: kg })
-      console.log(
-        `| ${kg} kg/month | ${PLN(a.revenue)} | ${PLN(a.monthlyContribution)} | ${PLN(a.acquisitionCost)} | ` +
-        `${a.paybackMonths ? a.paybackMonths.toFixed(1) : 'never'} | ${PLN(a.lifetimeContribution)} |`
-      )
+      console.log(`| ${kg} kg/month | ${PLN(a.revenue)} | ${PLN(a.monthlyContribution)} | ${PLN(a.acquisitionCost)} | ${a.paybackMonths ? a.paybackMonths.toFixed(1) : 'never'} | ${PLN(a.lifetimeContribution)} |`)
     }
+    console.log('')
+    console.log('_B2B block uses PLACEHOLDER inputs pending the B2B research stream. No B2B conclusion may be drawn from it._')
   }
+
+  // Solve: at what cost per kg does the best single order cover a median CPA?
+  console.log('')
+  console.log(`### Break-even solve — cost/kg needed for ONE 1 kg order to cover a ${CPA_PMAX} PLN CPA`)
+  console.log('')
+  console.log('| Cost PLN/kg | 1 kg order contribution | Covers CPA? |')
+  console.log('|--:|--:|---|')
+  const sc = scenarios.base
+  const kgShape = ORDER_SHAPES.find((x) => x.priceKey === 'price1kg')
+  for (const c of [124, 115, 110, 100, 90, 80, 70, 60, 50]) {
+    const p = merge(merge(baseParams, sc.overrides), {
+      supplyModels: { contractRoastPrivateLabel: { costPerKgRoastedGross: { value: c, src: 'solve' } } },
+    })
+    const o = b2cOrder({ p, s: sc, shape: { ...kgShape, price: sc.prices.price1kg } })
+    console.log(`| ${c} | ${PLN(o.contribution)} | ${o.contribution >= CPA_PMAX ? 'yes' : 'no'} |`)
+  }
+  console.log('')
 }
 
-if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('unit-economics.mjs')) {
-  run()
-}
+run()
