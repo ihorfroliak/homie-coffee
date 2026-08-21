@@ -1,13 +1,17 @@
 # 01 — Assumptions, Open Questions and Decisions
 
-**Status:** Commercial Feasibility Gate 0 **complete** — conclusion **GO WITH CONDITIONS** (B2B-led) / **NO-GO** (paid-acquisition B2C). See [`18-commercial-feasibility-gate.md`](18-commercial-feasibility-gate.md). Market research is running; no market claim
-is a fact until it appears in `sources.md` with a link, a publication date and an access date.
+**Status:** Commercial Feasibility Gate 0 **complete**. Conclusion: **GO WITH CONDITIONS** for a
+B2B-led business, **NO-GO** for paid-acquisition B2C — see
+[`18-commercial-feasibility-gate.md`](18-commercial-feasibility-gate.md).
+
+No market claim in this repository is a fact unless it appears in [`sources.md`](sources.md) with a
+link, a publication date and an access date. 213 claims are recorded there.
 
 **Owner of every decision below:** Ihor (product owner).
 **Maintained by:** Claude Code. Codex must not resolve an open question by implementing one side
 of it — see `AGENTS.md`.
 
-**Last updated:** 2026-08-20, branch `claude/commercial-feasibility-gate-0`.
+**Last updated:** 2026-08-21, branch `claude/commercial-feasibility-gate-0`.
 
 ---
 
@@ -39,7 +43,7 @@ of it — see `AGENTS.md`.
 | F9 | A working multi-agent coordination protocol already exists in this ecosystem — `heyhomie-shared`. Proven template, not a theory. | `heyhomie-shared/` |
 | F10 | Local folder name (`homies-coffee`) does not match the remote repository name (`homie-coffee`) or the sibling convention (`homie-english`, `homie-sports`). | directory listing vs remote |
 | **F11** | **Potential operating company: Omnomnom sp. z o.o.** | Ihor, 2026-08-20 |
-| **F12** | **That company is not a VAT payer from 1 January 2026.** Consequences for B2B selling are a Gate 0 research item, not yet resolved. | Ihor, 2026-08-20 |
+| **F12** | **That company is not a VAT payer from 1 January 2026.** **RESOLVED at Gate 0, and it is the single largest lever found:** a non-VAT payer gives a business buyer nothing to deduct, so B2B pricing carries a ~18.7% handicap (REG-10). It flips a 10 kg/month account from −60.50 to +220.00 PLN/month. See D-016. | Ihor, 2026-08-20; quantified 2026-08-21 |
 | **F13** | **Existing tooling in the owner's hands: Fakturownia (invoicing) and Stripe (payments).** Inputs to the technology decision, not automatically the chosen stack. | Ihor, 2026-08-20 |
 
 ---
@@ -173,26 +177,35 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 
 ---
 
-## Open questions carried into Gate 0
+## Open questions carried into Gate 0 — now answered
 
-Ihor's directions answered most of the original ten. What remains genuinely open, and what Gate 0
-is trying to answer with evidence rather than opinion:
-
-| # | Question | Why it is still open |
+| # | Question | Gate 0 answer |
 |---|---|---|
-| OQ-1 | Contract roasting/private label, or resale — which is actually available to a business with no volume history? | Depends on real Polish supplier MOQs, most of which are not published |
-| OQ-2 | Is a beans-only B2B offer credible in Poland, or is free-machine-for-volume the default that must be beaten? | The central B2B question; being researched now |
-| OQ-3 | What are the consequences of **not** being a VAT payer when selling to businesses? | Potentially decisive for the whole B2B path (F12) |
-| OQ-4 | Is KSeF in scope for a non-VAT-payer right now? | Potential hard blocker for B2B invoicing |
-| OQ-5 | Who carries EUDR, sanepid and labelling responsibility under each supply model? | Changes which supply model is even legal for a part-time founder |
-| OQ-6 | What is the market's actual free-delivery threshold, and what AOV does it force? | Determines whether any paid acquisition can work |
-| OQ-7 | Is "Homie" available as a trademark in class 30? | Must be answered before brand spend |
+| OQ-1 | Contract roasting/private label, or resale — which is available to a business with no volume history? | **Private label, and cheaply.** Lafaye produces from 20 units per SKU, and from zero with client-supplied labels (SUP-01). Entry under ~850 PLN. **Resale is rejected** — no wholesale programme found permits relabelling (SUP-35). |
+| OQ-2 | Is a beans-only B2B offer credible in Poland, or is free-machine-for-volume the default to beat? | **Free-machine-for-volume IS the default** — machines loaned against 2–4 kg/month, legally restricted to the supplier's coffee, on 12–36 month contracts (B2B-01/03/04/06). **That is the opening, not the obstacle:** the machine hides a 38–117 PLN/kg surcharge (B2B-34), and the beans-only segment is real (B2B-10/11/21). |
+| OQ-3 | Consequences of **not** being a VAT payer when selling to businesses? | **Decisive.** ~18.7% price handicap (REG-10). Flips a 10 kg/month account from −60.50 to +220.00 PLN/month. → **D-016.** |
+| OQ-4 | Is KSeF in scope for a non-VAT payer right now? | **Yes** (REG-02), from 2026-04-01 — but relief applies below 10,000 PLN/month until 2026-12-31 and penalties start 2027-01-01 (REG-03/04). **A Q4 2026 build item, not a launch blocker.** |
+| OQ-5 | Who carries EUDR, sanepid and labelling responsibility under each supply model? | **Sanepid: registration only, free, 14 days' notice** (REG-12/13). **EUDR: downstream operator — no own filing, retain the supplier's DDS reference 5 years** from 2027-06-30 (REG-19/20). ⚠ Unresolved: whether in-house **repacking** triggers the approval regime — so have the roaster pack. |
+| OQ-6 | What is the market's free-delivery threshold, and what AOV does it force? | **Median and modal 149 PLN**, band 129–159 (CMP-45). Forces the basket to ~1 kg or three bags. Best order shape is **3 × 250 g**, not 1 kg. |
+| OQ-7 | Is "Homie" available as a trademark in class 30? | **STILL OPEN** — EUIPO 403, TMview reset (REG-27). Blocks brand spend. → **D-021.** |
 
----
+### New open questions raised by Gate 0
+
+| # | Question | Why it now matters |
+|---|---|---|
+| OQ-8 | What is the **real** private-label cost per kg at low volume, from ≥3 roasters? | Everything rests on one self-described-average public figure of 124 PLN/kg. Free to close (D-019). |
+| OQ-9 | Will Kraków machine-owning businesses actually switch supplier? | The whole B2B thesis. Only answerable by the field test. |
+| OQ-10 | What B2B price is actually achievable? | 150 PLN/kg came from a trade price-ladder article, not a quote we hold; all Polish B2B pricing is gated (B2B-32). |
+| OQ-11 | What is the coffee repeat-purchase rate? | Every B2C LTV figure rests on an invented 30%. **Cannot be closed without trading.** |
+| OQ-12 | Should marketplaces (Allegro 5–10.5%, Amazon.pl 11%) be an acquisition channel? | Far cheaper than a 69 PLN CPA, but they cap price and take the customer relationship. Deferred to the next gate. |
 
 ## What has explicitly NOT been done
 
 - No supplier, roaster or business has been contacted, and none will be without approval (D-015).
+  The RFQ is drafted and unsent; **D-019 asks for permission to send it** to five named roasters.
+- **No trademark search was completed** — EUIPO returned 403, TMview reset the connection (REG-27).
+  "Homie" in Nice class 30 is **unverified**, and that blocks brand spend (D-021).
+- No landing page, no waitlist, no advertising, no spend of any kind.
 - No GitHub Actions, secrets, keys, infrastructure, external accounts or application scaffolding
   (D-013).
 - No production code, no framework, no dependencies, no database.
