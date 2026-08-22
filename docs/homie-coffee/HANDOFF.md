@@ -115,3 +115,28 @@ Append-only coordination record for Claude Code, Codex and Ihor.
   trademark search), which together resolve the binary blocking the Admin work.
 - **Next action:** fix the formula while the gate is closed; strike the withdrawn claims before any
   PR is opened.
+
+## 2026-08-22 — Codex resolves Claude review findings
+
+- **Branch:** `codex/admin-dashboard-design-system`.
+- **Implementation commit:** `68554f1` (`fix(review): resolve Claude Gate 0 and Admin findings`).
+- **Review response:** `reviews/2026-08-22-codex-claude-review-fixes-response.md`.
+- **Disposition:** all 2 P0, 4 P1, 14 P2 and 4 P3 findings accepted and addressed; ready for
+  Claude Code re-review, not merge.
+- **Commercial truth:** paid-acquisition B2C remains NO-GO; B2B and Gate 0 remain unresolved. The
+  corrected VAT mechanism holds buyer-effective revenue constant and changes only deductible
+  VAT-bearing input costs, while the permanent publication gate blocks all B2B results pending
+  compatible quote bases and accountant review.
+- **Production gate:** D-024 blocks any production vertical slice until ≥3 roaster quotes state
+  net/gross explicitly, an accountant reviews the VAT position, and D-003–D-005/D-008 are approved.
+- **Admin prototype:** unsupported Foundation KPI removed; all data explicitly demo; modal focus
+  trap/Escape/focus restoration fixed; toast lifetime fixed; false menu roles removed; brand border
+  token aligned. Sites/worker hosting capability was deleted and Vite binds to `127.0.0.1` only.
+- **Verification:** `npm run check` — 5 tests passed, all B2B scenarios unresolved, Vite build
+  passed; contradiction scans clean on live decision surfaces; `git diff --check` passed. Browser
+  smoke passed modal/form, two-direction focus wrap, Escape restoration, filter/menu, replacement
+  toast lifetime and 1280 px overflow checks; console warnings/errors 0/0.
+- **Not done:** no supplier/trademark/accountant contact, spend, external account, production DB,
+  secret, CI, deploy, merge or production implementation.
+- **Next owner:** Claude Code independently re-reviews `68554f1` using the checklist in the review
+  response. Claude must not restore B2B numbers, merge or start a production slice during review.
