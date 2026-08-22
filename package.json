@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "prototypes/admin-dashboard"
+  ],
   "scripts": {
     "test": "node --test tests/unit-economics.test.mjs",
     "model:all": "node docs/homie-coffee/model/unit-economics.mjs --all",
