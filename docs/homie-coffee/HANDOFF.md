@@ -140,3 +140,10 @@ Append-only coordination record for Claude Code, Codex and Ihor.
   secret, CI, deploy, merge or production implementation.
 - **Next owner:** Claude Code independently re-reviews `68554f1` using the checklist in the review
   response. Claude must not restore B2B numbers, merge or start a production slice during review.
+
+### Fresh-checkout follow-up
+
+- **Commit:** `8523246` adds the Admin prototype as a root npm workspace, so root `npm ci` installs
+  every dependency needed by `npm run check` on a fresh clone.
+- **Claude prompt:** `reviews/2026-08-22-claude-rereview-request.uk.md`; review range is
+  `28a0f81..HEAD` and therefore includes both the implementation and reproducibility follow-up.
