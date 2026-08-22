@@ -1,7 +1,7 @@
 # 01 — Assumptions, Open Questions and Decisions
 
-**Status:** Commercial Feasibility Gate 0 **complete**. Conclusion: **GO WITH CONDITIONS** for a
-B2B-led business, **NO-GO** for paid-acquisition B2C — see
+**Status:** Commercial Feasibility Gate 0 is **incomplete for B2B** after correction of the VAT
+mechanism. Paid-acquisition B2C remains **NO-GO**; B2B is a live but unproven hypothesis — see
 [`18-commercial-feasibility-gate.md`](18-commercial-feasibility-gate.md).
 
 No market claim in this repository is a fact unless it appears in [`sources.md`](sources.md) with a
@@ -43,7 +43,7 @@ of it — see `AGENTS.md`.
 | F9 | A working multi-agent coordination protocol already exists in this ecosystem — `heyhomie-shared`. Proven template, not a theory. | `heyhomie-shared/` |
 | F10 | Local folder name (`homies-coffee`) does not match the remote repository name (`homie-coffee`) or the sibling convention (`homie-english`, `homie-sports`). | directory listing vs remote |
 | **F11** | **Potential operating company: Omnomnom sp. z o.o.** | Ihor, 2026-08-20 |
-| **F12** | **That company is not a VAT payer from 1 January 2026.** **RESOLVED at Gate 0, and it is the single largest lever found:** a non-VAT payer gives a business buyer nothing to deduct, so B2B pricing carries a ~18.7% handicap (REG-10). It flips a 10 kg/month account from −60.50 to +220.00 PLN/month. See D-016. | Ihor, 2026-08-20; quantified 2026-08-21 |
+| **F12** | **That company is not a VAT payer from 1 January 2026.** The commercial magnitude of voluntary registration is unresolved: the first model mixed price bases. Registration mechanically makes eligible input VAT deductible, but B2B viability still depends on quote bases and accountant confirmation. See D-016 and OQ-3. | Ihor, 2026-08-20; model correction 2026-08-21 |
 | **F13** | **Existing tooling in the owner's hands: Fakturownia (invoicing) and Stripe (payments).** Inputs to the technology decision, not automatically the chosen stack. | Ihor, 2026-08-20 |
 
 ---
@@ -157,7 +157,7 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 | D-003 | Positioning | ⚠ open | Ihor | Gate 0 tests accessible speciality; approval comes after Gate 0 |
 | D-004 | Business model | ⚠ open | Ihor | Blocked on Gate 0 unit economics |
 | D-005 | MVP scope | ⚠ open | Ihor | Blocked on D-003, D-004 |
-| D-006 | Technology choice | **APPROVED 2026-08-21** | Ihor | Node 24 LTS; Next.js/TypeScript modular monolith; PostgreSQL 18 + Prisma; Better Auth core + mandatory owner TOTP; Render Frankfurt; transactional append-only PostgreSQL audit; Vitest + Testcontainers + Playwright. Approval does not authorise cloud spend or production implementation. |
+| D-006 | Technology choice | **APPROVED 2026-08-21** | Ihor | Node 24 LTS; Next.js/TypeScript modular monolith; PostgreSQL 18 + Prisma; Better Auth core + mandatory owner TOTP; transactional append-only PostgreSQL audit; Vitest + Testcontainers + Playwright. Render Frankfurt is selected, **not provisioned**. Approval does not authorise cloud spend, external accounts, production database, secrets, CI, production implementation or deployment. |
 | D-007 | Google Ads measurement model | ⚠ open | Ihor | Deferred out of Gate 0 |
 | D-008 | Roadmap and phase gates | ⚠ open | Ihor | Deferred out of Gate 0 |
 | D-009 | Native mobile application at launch | **Claude Code recommends: no** | Ihor | Argument deferred to the specification phase; recorded so it is not silently dropped |
@@ -167,14 +167,15 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 | **D-013** | **No GitHub Actions, secrets, API keys, production infrastructure, application scaffolding or external accounts** | **DECIDED 2026-08-20** | Ihor | Gate 0 must prove the economics before any credential exists |
 | **D-014** | **Work proceeds on branch `claude/commercial-feasibility-gate-0` via pull request. No direct commits to `main`. Claude Code must not merge.** | **DECIDED 2026-08-20** | Ihor | |
 | **D-015** | **No supplier, roaster or business may be contacted without Ihor's explicit approval** | **DECIDED 2026-08-20** | Ihor | Outreach templates may be drafted, not sent |
-| **D-016** | **Register Omnomnom sp. z o.o. for VAT voluntarily** | ⚠ **open — Claude Code recommends YES if B2B proceeds** | Ihor | Worth ~280 PLN/month per 10 kg B2B account. A non-VAT payer gives a business buyer nothing to deduct (REG-10). Gates the whole B2B channel. |
-| **D-017** | **Invert the launch order: B2B first, B2C second and organic** | ⚠ **open — Claude Code recommends YES** | Ihor | Contradicts A4. Paid-search B2C is arithmetically unavailable; B2B clears its hurdle at the verified worst-case cost. |
+| **D-016** | **Register Omnomnom sp. z o.o. for VAT voluntarily** | ⚠ **open — Claude Code recommends YES if B2B proceeds, subject to accountant** | Ihor | Registration makes eligible input VAT deductible; the magnitude and overall advisability are unproven until explicit net/gross quotes and accountant review. No claim that registration alone rescues B2B. |
+| **D-017** | **Invert the launch order: B2B first, B2C second and organic** | ⚠ open | Ihor | Paid-search B2C is arithmetically unavailable. B2B remains unproven, so this order must not be assumed by Admin work. |
 | **D-018** | **Authorise ≤2,000 PLN validation, none of it on advertising** | ⚠ open | Ihor | At a 69.30 PLN median CPA, 2,000 PLN buys ~29 acquisitions — useless for measuring repeat and loss-making per order. |
-| **D-019** | **Approve sending the drafted RFQ to 5 named roasters** (partial lift of D-015) | ⚠ open | Ihor | Free, and closes the single most critical evidence gap (cost per kg). |
+| **D-019** | **Approve sending the drafted RFQ to 5 named roasters** (partial lift of D-015) | ⚠ open | Ihor | Closes the single most critical gap only if every response states cost per kg **and whether it is net or gross**. No contact before explicit approval. |
 | **D-020** | Approve the ~850 PLN private-label pilot batch | ⚠ open, after D-019 | Ihor | Real product for the field test. |
 | **D-021** | **Trademark search on "Homie" in Nice class 30 before any brand spend** | ⚠ open | Ihor | Currently **unverified** — EUIPO returned 403, TMview reset (REG-27). A conflict affects the whole Homie ecosystem. |
 | **D-022** | Confirm the accountant and lawyer to consult (VAT registration; HeyHomie cross-marketing lawful basis) | ⚠ open | Ihor | REG-10, REG-25/26. |
 | **D-023** | **Create the Admin design system and first Dashboard as a local non-production prototype** | **APPROVED 2026-08-21** | Ihor | Selected visual direction: Option 1. Mock data only; no production backend, database, auth, external integrations, cloud spend or deploy. |
+| **D-024** | **No production vertical slice before evidence gates close** | **DECIDED 2026-08-21** | Ihor | Requires ≥3 roaster quotes with explicit net/gross basis and an accountant-reviewed VAT position. D-003–D-005 and D-008 must also be approved. Prototype/specification work may continue; Slice A is proposed, not approved. |
 
 ---
 
@@ -184,7 +185,7 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 |---|---|---|
 | OQ-1 | Contract roasting/private label, or resale — which is available to a business with no volume history? | **Private label, and cheaply.** Lafaye produces from 20 units per SKU, and from zero with client-supplied labels (SUP-01). Entry under ~850 PLN. **Resale is rejected** — no wholesale programme found permits relabelling (SUP-35). |
 | OQ-2 | Is a beans-only B2B offer credible in Poland, or is free-machine-for-volume the default to beat? | **Free-machine-for-volume IS the default** — machines loaned against 2–4 kg/month, legally restricted to the supplier's coffee, on 12–36 month contracts (B2B-01/03/04/06). **That is the opening, not the obstacle:** the machine hides a 38–117 PLN/kg surcharge (B2B-34), and the beans-only segment is real (B2B-10/11/21). |
-| OQ-3 | Consequences of **not** being a VAT payer when selling to businesses? | **Decisive.** ~18.7% price handicap (REG-10). Flips a 10 kg/month account from −60.50 to +220.00 PLN/month. → **D-016.** |
+| OQ-3 | Consequences of **not** being a VAT payer when selling to businesses? | **Direction known, magnitude unresolved.** Voluntary registration makes eligible input VAT deductible. The previous comparison mixed price bases and is withdrawn. Requires explicit quote bases and accountant confirmation. → **D-016, D-022, D-024.** |
 | OQ-4 | Is KSeF in scope for a non-VAT payer right now? | **Yes** (REG-02), from 2026-04-01 — but relief applies below 10,000 PLN/month until 2026-12-31 and penalties start 2027-01-01 (REG-03/04). **A Q4 2026 build item, not a launch blocker.** |
 | OQ-5 | Who carries EUDR, sanepid and labelling responsibility under each supply model? | **Sanepid: registration only, free, 14 days' notice** (REG-12/13). **EUDR: downstream operator — no own filing, retain the supplier's DDS reference 5 years** from 2027-06-30 (REG-19/20). ⚠ Unresolved: whether in-house **repacking** triggers the approval regime — so have the roaster pack. |
 | OQ-6 | What is the market's free-delivery threshold, and what AOV does it force? | **Median and modal 149 PLN**, band 129–159 (CMP-45). Forces the basket to ~1 kg or three bags. Best order shape is **3 × 250 g**, not 1 kg. |
@@ -194,7 +195,7 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 
 | # | Question | Why it now matters |
 |---|---|---|
-| OQ-8 | What is the **real** private-label cost per kg at low volume, from ≥3 roasters? | Everything rests on one self-described-average public figure of 124 PLN/kg. Free to close (D-019). |
+| OQ-8 | What is the **real** private-label cost per kg at low volume, from ≥3 roasters, and is every quote net or gross? | Everything rests on one self-described-average public figure whose tax basis is unstated. D-019 requests permission to close it; D-024 blocks production until it is closed. |
 | OQ-9 | Will Kraków machine-owning businesses actually switch supplier? | The whole B2B thesis. Only answerable by the field test. |
 | OQ-10 | What B2B price is actually achievable? | 150 PLN/kg came from a trade price-ladder article, not a quote we hold; all Polish B2B pricing is gated (B2B-32). |
 | OQ-11 | What is the coffee repeat-purchase rate? | Every B2C LTV figure rests on an invented 30%. **Cannot be closed without trading.** |
@@ -212,5 +213,7 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 - No production application, database, authentication, cloud resources or external integrations.
 - D-006 is approved. A separate local UI prototype may use dependencies, but production implementation
   remains gated by unresolved product/scope decisions and explicit implementation approval.
+- The Vite prototype is deliberately throwaway and is not a code path or scaffold for the approved
+  Next.js architecture. Its hosting/deploy adapter has been removed to enforce D-023.
 - No landing page created.
 - No merge to `main`, and none will be performed by Claude Code (D-014).

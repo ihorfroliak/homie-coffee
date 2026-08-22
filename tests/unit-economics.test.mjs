@@ -40,3 +40,48 @@ test('changing only price basis cannot unlock the unverified VAT formula', () =>
 
   assert.equal(account.resolved, false)
 })
+
+test('verified B2B mechanism changes contribution only by deductible input VAT', () => {
+  const verified = {
+    b2b: {
+      taxModelStatus: { value: 'verified_v1', src: 'test fixture' },
+      priceBasis: { value: 'buyer_effective_cost', src: 'test fixture' },
+    },
+  }
+  const scenario = scenarios.conservative
+  const common = merge(merge(params, scenario.overrides), verified)
+  const nonVat = b2bAccount({
+    p: merge(common, { b2b: { vatRegistered: { value: false, src: 'test fixture' } } }),
+    monthlyKg: 10,
+  })
+  const vatRegistered = b2bAccount({
+    p: merge(common, { b2b: { vatRegistered: { value: true, src: 'test fixture' } } }),
+    monthlyKg: 10,
+  })
+
+  const vatRate = params.vatRate.value
+  const grossVatBearingInputs = 10 * 124 + params.shipping.b2bDeliveryCostPerDrop.value
+  const expectedReclaimableInputVat = grossVatBearingInputs * vatRate / (1 + vatRate)
+
+  assert.equal(nonVat.resolved, true)
+  assert.equal(vatRegistered.resolved, true)
+  assert.equal(nonVat.revenue, vatRegistered.revenue)
+  assert.equal(Number((vatRegistered.monthlyContribution - nonVat.monthlyContribution).toFixed(2)), Number(expectedReclaimableInputVat.toFixed(2)))
+  assert.equal(Number(vatRegistered.reclaimedInputVat.toFixed(2)), Number(expectedReclaimableInputVat.toFixed(2)))
+})
+
+test('gross B2B benchmark is normalized to buyer-effective revenue before comparing tax states', () => {
+  const p = merge(params, {
+    b2b: {
+      taxModelStatus: { value: 'verified_v1', src: 'test fixture' },
+      priceBasis: { value: 'gross', src: 'test fixture' },
+      pricePerKg: { value: 123, src: 'test fixture' },
+      vatRegistered: { value: false, src: 'test fixture' },
+    },
+  })
+  const account = b2bAccount({ p, monthlyKg: 10 })
+
+  assert.equal(account.resolved, true)
+  assert.equal(account.buyerEffectivePricePerKg, 100)
+  assert.equal(account.revenue, 1000)
+})

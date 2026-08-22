@@ -1,7 +1,8 @@
 # sources.md — every external claim used in Gate 0
 
-Generated from the research records, not hand-typed, so a citation cannot drift from the claim it
-supports. Each row: **key · claim · value · tag · source · publication date · confidence**.
+Assembled from research claim records during the evidence workflow. The raw records and generator
+are not committed in this branch, so generation is not reproducible here. Each row: **key · claim ·
+value · tag · source · publication date · confidence**.
 All accessed 2026-08-20/21.
 
 **Tags.** `fact` = read directly off the cited page. `estimate` = derived, averaged, or described

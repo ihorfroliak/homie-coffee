@@ -11,18 +11,19 @@ ksef.podatki.gov.pl, EUR-Lex and the European Commission on 2026-08-20/21.
 
 ## The answer first
 
-**No hard legal blocker to trading was found.** But one *commercial* consequence of a tax status
-is close to decisive, and it works in the opposite direction to intuition:
+**No hard legal blocker to trading was found.** VAT status remains a material commercial decision,
+but its magnitude is not established by Gate 0.
 
-> **Not being a VAT payer does not save money — it destroys the B2B channel.** A non-VAT payer
-> charges no VAT, so a VAT-registered business buyer has nothing to deduct. The same shelf price
-> costs that buyer ~23% more in real terms than buying from a VAT-registered roaster.
-> **Voluntary VAT registration is a business-model decision, not a tax optimisation.**
+> **Voluntary VAT registration makes eligible input VAT deductible.** The first B2B comparison
+> mixed incompatible price bases and is withdrawn. Whether registration improves an already viable
+> account or reduces a loss depends on supplier/customer quote bases and real cost lines.
+> **Treat this as an accountant-gated business-model decision, not a tax shortcut.**
 
-Quantified in [doc 05](05-business-model-and-unit-economics.md): at the verified 124 PLN/kg cost
-with founder labour charged, a 10 kg/month B2B account is **−60.50 PLN/month and never pays back**
-as a non-VAT payer, and **+220 PLN/month with 1.9-month payback** if VAT-registered. Same coffee,
-same customer, same cost. One free, reversible decision.
+The corrected mechanism is described in [doc 05](05-business-model-and-unit-economics.md), but the
+model deliberately emits no B2B contribution or payback until the 124 PLN/kg supply figure and the
+selling-price benchmark have explicit compatible net/gross bases. Return from VAT exemption is
+time-restricted and active VAT status adds compliance obligations; registration is neither free nor
+assumed reversible on demand.
 
 ---
 
@@ -43,7 +44,7 @@ belongs to the provider, not to us.
 ⚠ **Needs professional confirmation:** whether the 10,000 PLN carve-out applies per-entity in our
 exact situation, and Fakturownia's current KSeF readiness.
 
-## 2. VAT — the decisive commercial item
+## 2. VAT — material, directionally known, magnitude unresolved
 
 | Question | Answer | Key |
 |---|---|---|
@@ -52,7 +53,7 @@ exact situation, and Fakturownia's current KSeF readiness.
 | Small-business exemption threshold 2026 | **240,000 PLN/year**, raised from 200,000 | REG-07 |
 | Does selling coffee force registration regardless of turnover? | **No.** Coffee does not appear on the art. 113 ust. 13 list | REG-11 |
 | Can a non-VAT payer issue a valid invoice? | Yes — VAT rate field shows *"zw"*; buyer may request within 3 months | REG-09 |
-| **B2B consequence** | **~23% effective cost disadvantage to a VAT-registered buyer** | **REG-10** |
+| **B2B consequence** | Eligible input VAT becomes deductible after registration; overall price competitiveness and margin require explicit net/gross quote bases and accountant review | **REG-10; model correction pending professional confirmation** |
 
 **Recommendation to Ihor (requires your decision, D-016):** if B2B is in the plan at all, register
 for VAT voluntarily. The exemption is worth having only for a pure-B2C business.

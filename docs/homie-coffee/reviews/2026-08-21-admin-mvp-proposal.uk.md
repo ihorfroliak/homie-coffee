@@ -216,12 +216,20 @@ Contribution відображається як `unresolved`, якщо хоча �
 - desktop-first, але придатна для планшета;
 - світла нейтральна основа, бренд використовується для hierarchy, а не декору;
 - таблиці з saved filters, keyboard navigation і bulk actions лише там, де дія reversible;
+- кожен production dialog trap-ить фокус, закривається через Escape і повертає фокус на trigger;
+  popover/menu реалізує повний keyboard contract, а не лише ARIA role;
+- production UI від першого компонента має translation seam: польська primary, англійська secondary;
 - money, stock та destructive actions мають confirmation із показом наслідків;
 - статус не передається лише кольором;
 - усі loading/empty/error/permission-denied стани проєктуються разом із happy path;
 - dashboard відповідає на «що потребує моєї дії зараз?», а не демонструє декоративні графіки.
 
-## 10. Перший вертикальний implementation slice після approval
+## 10. Історична пропозиція vertical slice — заблокована й замінена
+
+> **Не реалізовувати.** Після Claude review і рішення D-024 жоден production vertical slice не
+> стартує до ≥3 roaster quotes із чіткою net/gross basis, accountant-reviewed VAT position та
+> затвердження D-003–D-005 і D-008. Наведений нижче первинний варіант збережено як історію
+> пропозиції; через price/VAT scope він не є поточним кандидатом.
 
 **Slice A — Product → stock → manual B2B order**
 

@@ -2,7 +2,12 @@
   "_README": "INPUTS to the Gate 0 unit-economics model. Every value carries `src`: a sources.md key (verified evidence), an assumption ID from doc 01, or ASSUMPTION(...) where a figure was derived because no public source exists. Edit and re-run `node docs/homie-coffee/model/unit-economics.mjs --all`.",
   "_currency": "PLN",
   "_asOf": "2026-08-21",
-  "_vatNote": "Omnomnom sp. z o.o. is NOT a VAT payer from 2026-01-01 (F12). The model therefore works entirely in GROSS costs — input VAT is not reclaimable, so the gross price paid IS the cost — and charges no output VAT, so the shelf price IS net revenue. VAT rates are consequently not model inputs. The legal position, including whether a non-VAT payer can invoice businesses without disadvantaging them, is in doc 14 and needs accountant confirmation.",
+  "_vatNote": "Omnomnom sp. z o.o. is NOT a VAT payer from 2026-01-01 (F12). B2C therefore uses gross input costs and no output VAT. The B2B mechanism can compare tax states only after priceBasis and taxModelStatus are verified: buyer-effective revenue is held constant and VAT registration changes deductible VAT-bearing input costs. Publication remains gated pending explicit quote bases and accountant confirmation.",
+  "vatRate": {
+    "value": 0.23,
+    "src": "REG-05",
+    "note": "Standard Polish VAT rate used for the B2B mechanism check. The precise rate on every real supply/cost line still requires invoice/accountant confirmation."
+  },
   "_dropshipNote": "Dropshipping was one of three supply routes to price out. It is DELIBERATELY ABSENT from supplyModels: no Polish coffee roaster or wholesaler was found publishing dropshipping terms on its own site (SUP-33). It cannot be modelled without inventing numbers, so it is not modelled.",
   "supplyModels": {
     "contractRoastPrivateLabel": {
@@ -163,7 +168,7 @@
     "taxModelStatus": {
       "value": "disabled_pending_verified_vat_model",
       "src": "CODEX-REVIEW-2026-08-21",
-      "note": "Safety gate. Do not enable B2B output merely by filling priceBasis. Implement and test consistent output VAT, deductible input VAT, and buyer-effective price comparisons first."
+      "note": "Permanent publication gate. The buyer-effective/input-deductibility mechanism is implemented and tested, but output must remain disabled until compatible quote bases and accountant-reviewed tax treatment are recorded."
     },
     "pricePerKg": {
       "value": 150.0,
@@ -179,11 +184,6 @@
       "value": false,
       "src": "F12",
       "note": "Omnomnom sp. z o.o. is NOT a VAT payer. Set true to see the B2B economics after voluntary registration."
-    },
-    "nonVatPayerPriceHandicap": {
-      "value": 0.187,
-      "src": "REG-10",
-      "note": "1 - 1/1.23. A VAT-registered business buyer deducts input VAT from a registered supplier but has nothing to deduct from us, so our price must be ~18.7% lower to cost that buyer the same. Applied to B2B revenue only; consumers are unaffected and it is a small ADVANTAGE there."
     },
     "salesHoursPerWonAccount": {
       "value": 6,
@@ -220,6 +220,16 @@
       "value": 0.014,
       "src": "BM-12",
       "note": "Polish small-shop (<100k PLN/mo) median session conversion. Sample contains NO food category, so this may understate coffee."
+    },
+    "medianPmaxCpa": {
+      "value": 69.3,
+      "src": "BM-18",
+      "note": "Polish all-category median cost per conversion for Performance Max; it is not a coffee purchase CAC."
+    },
+    "medianSearchCpa": {
+      "value": 86.46,
+      "src": "BM-18",
+      "note": "Polish all-category median cost per conversion for Search; it is not a coffee purchase CAC."
     },
     "repeatRateOrder2": {
       "value": 0.3,

@@ -7,60 +7,55 @@
 
 ---
 
-# CONCLUSION: **GO WITH CONDITIONS**
+# CONCLUSION: **B2B GATE INCOMPLETE · PAID B2C NO-GO**
 
-**…for a B2B-led business. NO-GO for the paid-acquisition-led B2C store.**
+**B2B remains a live hypothesis pending explicit-basis quotes and accountant review. The
+paid-acquisition-led B2C store is NO-GO.**
 
-The evidence separates cleanly into a business that works and one that does not, and it is not the
-one the plan assumed.
+The first B2B/VAT model did not separate the channels cleanly: it mixed price bases. That comparison
+is withdrawn. The B2C conclusion does not depend on it and survives with a wider negative gap after
+the parcel-cost correction.
 
 | | Verdict | Why, in one line |
 |---|---|---|
-| **B2B beans-only, Kraków, businesses that already own machines** | ✅ **viable at the verified worst-case cost** | 10 kg/month account = **+220 PLN/month, 1.9-month payback** even at 124 PLN/kg with founder labour charged — **provided the company registers for VAT** |
+| **B2B beans-only, Kraków, businesses that already own machines** | 🟡 **unproven; publication gate closed** | SUP-05 and B2B-14 lack compatible net/gross bases. Obtain ≥3 explicit-basis quotes and accountant review before any contribution/payback claim |
 | **B2C via Google Ads / paid search** | ❌ **not viable at any obtainable supply price** | Coffee would have to cost **~50 PLN/kg** to cover a median Polish 69.30 PLN CPA on one order. Green arabica alone is ~26.70 PLN/kg before roasting |
 | **B2C via organic / warm / marketplace** | 🟡 **plausible, unproven** | Contribution is positive (6–20 PLN/order) but the repeat rate it depends on is invented |
 | **Resale of another roaster's brand** | ❌ **abandon** | Worse margin *and* no wholesale programme found permits relabelling — it builds nothing |
 | **Dropshipping** | ❌ **unevidenced** | No Polish coffee supplier publishes terms. Cannot be modelled; must not be assumed |
 
-**This directly contradicts the preferred hypothesis** (A4: *B2C validation first, small Kraków B2B
-pilot second*). The evidence says the two halves were the right ideas in the wrong order.
-**Beans-only, machine-owning businesses, Kraków, no machine leasing — all correct and better
-supported than expected. "B2C validation first" is the part that fails.**
+The evidence rejects paid-acquisition B2C and supports beans-only, machine-owning Kraków businesses
+as a validation target. It does **not** yet approve B2B-first or resolve D-017. Admin work must not
+turn that open launch-order decision into an assumption.
 
 ---
 
-## The single decision that changes everything
+## The VAT mechanism — corrected, but not publishable yet
 
-> **A non-VAT payer cannot sell to businesses on competitive terms.** No VAT charged means the
-> business buyer has nothing to deduct, so our price must be ~18.7% lower to cost them the same as
-> a VAT-registered roaster (REG-10).
+The withdrawn model cut non-VAT revenue and kept gross input costs, charging the missing deduction
+twice. The corrected mechanism holds buyer-effective revenue constant. Registration then affects
+eligible input costs: their VAT becomes deductible. A regression test proves that the contribution
+difference equals the reclaimable input VAT on the modelled coffee and delivery lines.
 
-Same coffee, same customer, same cost — only the tax status differs:
-
-| 10 kg/month B2B account, **verified 124 PLN/kg cost**, founder labour charged | Monthly contribution | Payback | Lifetime |
-|---|--:|--:|--:|
-| As a **non-VAT payer** (current status, F12) | **−60.50 PLN** | never | −1,635 PLN |
-| **VAT-registered** | **+220.00 PLN** | **1.9 months** | **+3,975 PLN** |
-
-A free, reversible administrative decision is worth ~280 PLN/month per 10 kg account and is the
-difference between a channel that works and one that cannot. **This is the most valuable finding
-in Gate 0.**
+That establishes direction, not magnitude or viability. The model continues to output `unresolved`
+for B2B until the selling benchmark and supplier quotes carry explicit compatible bases and an
+accountant confirms treatment. No B2B contribution, payback or lifetime value from the withdrawn
+comparison may be used in a decision.
 
 ---
 
 ## 1. The strongest reason to proceed
 
-**The cost of being wrong is under 850 PLN, and the B2B channel clears its hurdle at the worst
-number we actually verified.**
+**The cost of testing supply can be kept under 850 PLN, and the B2B hypothesis can be resolved
+without production software.**
 
 Two facts combine unusually well:
 
 - **Entry is trivially cheap.** Lafaye produces private label from **20 units per SKU — and from
   zero with client-supplied labels** (SUP-01). Twenty 250 g units plus a 150 PLN label is **under
   ~850 PLN** (SUP-34). The private-label barrier in Poland is artwork, not volume.
-- **The B2B economics survive the pessimistic case.** Not the hoped-for cost — the *only publicly
-  quoted* cost (124 PLN/kg), with the founder's time charged at 50 PLN/h, and with the VAT
-  handicap removed by registering. A 10 kg account still returns 220 PLN/month.
+- **The B2B economics are cheap to test, not proven.** The only public cost (124 PLN/kg) omits its
+  tax basis. D-019 can replace it with three comparable quotes before software or material spend.
 
 Add the structural opening: the incumbent Polish B2B model is a machine on loan against a
 **2–4 kg/month** purchase commitment (B2B-01, B2B-02, B2B-03), legally locked so that **only the
@@ -91,8 +86,8 @@ inside the price band it would have to be sold above.**
 sells 1 kg "specialty" at **59.98–119.99 PLN/kg** (BM-21), and Polish roasters sell direct at
 125–175 PLN/kg (BM-25).
 
-**If a real quote comes back at or above 124 PLN/kg, the B2C business is dead and the B2B business
-is marginal.** Everything positive above depends on a number nobody has quoted us.
+**B2C is already unattractive at the published 124 PLN/kg input. B2B cannot be classified from
+that number until its net/gross basis and the achievable selling-price basis are explicit.**
 
 Secondary, and serious:
 
@@ -172,8 +167,9 @@ any message is sent. It is a relationship channel, not an email list.
 > in-house.**
 
 - **Route A — private label ✅.** The only route that builds a brand, and entry is under 850 PLN.
-- **Route B — wholesale resale ❌.** Worse margin (contribution 3.35–12.81 PLN/order, break-even
-  ROAS up to 31.7×) *and* **no wholesale programme found permits relabelling** (SUP-35). It builds
+- **Route B — wholesale resale ❌.** Worse margin (positive contribution only 0.25–8.49 PLN/order,
+  one modelled shape negative, break-even ROAS up to 580.7×) *and* **no wholesale programme found
+  permits relabelling** (SUP-35). It builds
   someone else's brand.
 - **Route C — dropshipping ❌.** No primary source publishes terms (SUP-33). Not modellable.
 
@@ -192,7 +188,7 @@ supplier agreement from the first order** (REG-20) — free now, expensive to re
   across 11 verified stores (CMP-45). Competitors have already engineered baskets away from the
   single bag.
 - **The best order shape is 3 × 250 g, not 1 kg.** Counter-intuitive and worth stating: at base,
-  the bundle contributes **20.31 PLN** versus **14.57 PLN** for a 1 kg order at higher revenue,
+  the bundle contributes **15.99 PLN** versus **10.25 PLN** for a 1 kg order at higher revenue,
   because coffee cost scales with weight while price per kg falls. Bundles of small bags beat big
   bags on margin.
 - Shipping costs **44.36 PLN per kg moved** on a single 250 g order versus **11.09 PLN/kg** on a
@@ -202,12 +198,11 @@ supplier agreement from the first order** (REG-20) — free now, expensive to re
 
 | Channel | Max CAC (first order) | Max CAC (modelled lifetime) | Polish market cost | Verdict |
 |---|--:|--:|--:|---|
-| **B2C paid** | **20.31 PLN** | **29.45 PLN** | **69.30 PLN** median PMax · 86.46 Search (BM-18) | ❌ **3–4× short** |
-| **B2B** (VAT-registered, verified cost) | — | **~4,400 PLN** per 10 kg account | ~425 PLN modelled | ✅ **~10× headroom** |
+| **B2C paid** | **15.99 PLN** | **23.19 PLN** | **69.30 PLN** median PMax · 86.46 Search (BM-18) | ❌ **over 4× short** |
+| **B2B** | **unresolved** | **unresolved** | sales cost assumptions remain illustrative | 🟡 **publication gate closed** |
 
-Break-even ROAS for B2C is **5.8×–10×** in the base scenario. **LTV/CAC peaks at 0.43** — 43
-groszy back for every złoty spent. Even the optimistic scenario reaches only **1.03**, meaning the
-customer exactly repays their acquisition and contributes nothing.
+Break-even ROAS for B2C is **7.6×–27.4×** in the base scenario. **LTV/CAC peaks at 0.33** — 33
+groszy back for every złoty spent. Even the optimistic scenario reaches only **0.93**.
 
 **Solving backwards: coffee must cost ~50 PLN/kg for one 1 kg order to cover a median CPA.** Green
 arabica at the C-market is ~26.70 PLN/kg *before* differential, freight, duty, 15–18% roasting
@@ -250,19 +245,19 @@ billing; the rest are prepaid blocks or manual arrangements (CMP-47). **A9 was r
 
 | ID | Decision | Recommendation | Blocks |
 |---|---|---|---|
-| **D-016** | **Register Omnomnom sp. z o.o. for VAT voluntarily** | **Yes, if B2B proceeds** — worth ~280 PLN/month per 10 kg account | The entire B2B channel |
-| **D-017** | **Invert the launch order: B2B first, B2C second and organic** | **Yes** — contradicts A4, and the evidence is clear | Everything downstream |
+| **D-016** | **Register Omnomnom sp. z o.o. for VAT voluntarily** | Accountant review required; direction of input-VAT benefit is known, magnitude is not | B2B tax treatment |
+| **D-017** | **Invert the launch order: B2B first, B2C second and organic** | Hold; B2B economics unresolved | Everything downstream |
 | **D-018** | **Authorise ≤2,000 PLN validation, none of it on advertising** | Yes | The experiment |
 | **D-019** | **Approve sending the RFQ to 5 named roasters** (lifts D-015 for these only) | Yes — free, and closes E1 | E1 |
 | **D-020** | Approve the ~850 PLN private-label pilot batch | Yes, **after** D-019 returns quotes | Field test |
 | **D-021** | Confirm "Homie Coffee" as the name, subject to the class 30 search | Hold until E2 | All brand spend |
 | **D-022** | Confirm the accountant and lawyer to consult (VAT; HeyHomie cross-marketing) | Yes | E3, L3 |
 | **D-003** | Positioning — accessible speciality, beans-only, no machines | Recommend approving as tested | Specification phase |
-| **D-004** | Business model — B2B-led, prepayment, no subscription engine | Recommend approving | Specification phase |
+| **D-004** | Business model — B2B-led, prepayment, no subscription engine | Hold until quote bases and accountant review close B2B economics | Specification phase |
 
-**Not requested and not recommended yet:** MVP scope (D-005), technology (D-006), ads measurement
-(D-007), roadmap (D-008). All remain deferred (D-012). **Nothing should be built until the field
-test returns.**
+Technology D-006 and local prototype D-023 are approved, but no production implementation is.
+D-003–D-005 and D-008 remain open. **D-024 blocks every production vertical slice until ≥3
+explicit-basis roaster quotes and accountant review return.**
 
 ---
 
@@ -270,11 +265,12 @@ test returns.**
 
 Stated in advance so the gate cannot be quietly re-interpreted later:
 
-- **Quotes ≥124 PLN/kg** → downgrade to NO-GO.
+- **Three comparable gross-basis quotes above the viable threshold after accountant-reviewed tax
+  treatment** → downgrade B2B; do not infer the threshold from the withdrawn model.
 - **Quotes ≤90 PLN/kg** → B2C organic becomes genuinely interesting; paid still does not.
 - **Zero conversions from 30 field approaches** → NO-GO regardless of cost.
-- **Accountant says voluntary VAT registration is unavailable or harmful** → B2B falls back to the
-  non-VAT-payer rows, which are negative. Re-run the gate.
+- **Accountant says voluntary VAT registration is unavailable or harmful** → re-run the corrected
+  model under the confirmed non-VAT cost structure; no withdrawn row may be reused.
 
 ## Honest limits of this assessment
 

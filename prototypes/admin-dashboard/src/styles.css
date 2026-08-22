@@ -14,7 +14,7 @@
   --indigo: #414483;
   --slate: #52516b;
   --light: #f6fbff;
-  --border: #e4e8ef;
+  --border: #edeeef;
   --pink: #eb4e87;
   --yellow: #f4d779;
   --peri: #c8cff0;
@@ -22,6 +22,7 @@
 }
 
 * { box-sizing: border-box; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 button, input { font: inherit; }
 button { color: inherit; }
 body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--light); -webkit-font-smoothing: antialiased; }
@@ -74,8 +75,8 @@ h1 { margin: 0; font-size: clamp(32px, 3.2vw, 48px); line-height: 1.05; letter-s
 .dot--amber { background: #efb32f; }
 .metric > strong { display: block; margin: 8px 0 7px; font-size: 31px; line-height: 1; letter-spacing: -.04em; }
 .metric small { color: #78768f; font-size: 10px; }
-.metric--foundation strong { color: var(--pink); font-size: 17px; letter-spacing: 0; margin: 8px 0 6px; }
-.metric--foundation button { display: flex; align-items: center; gap: 12px; margin-top: 7px; padding: 0; border: 0; color: #4345ba; background: transparent; cursor: pointer; font-size: 11px; font-weight: 700; }
+.metric--gate strong { color: var(--pink); font-size: 17px; letter-spacing: 0; margin: 8px 0 6px; }
+.metric--gate button { display: flex; align-items: center; gap: 12px; margin-top: 7px; padding: 0; border: 0; color: #4345ba; background: transparent; cursor: pointer; font-size: 11px; font-weight: 700; }
 
 .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1fr) 294px; gap: 25px; padding-top: 26px; }
 .action-panel { min-width: 0; border-right: 1px solid var(--border); padding-right: 24px; }

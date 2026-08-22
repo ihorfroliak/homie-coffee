@@ -19,8 +19,8 @@ unresolved**, so it cannot quietly substitute a flattering number for a missing 
 
 **At the only verified Polish private-label cost, and at Polish median advertising cost, this
 business does not pay for a customer out of the first order — in any scenario, at any order
-shape.** In the optimistic scenario it reaches roughly break-even across three orders
-(LTV/CAC ≈ 1.03), and the optimistic scenario rests on a supply price nobody has quoted us.
+shape.** Even the optimistic scenario remains below break-even across three orders
+(LTV/CAC peaks at 0.93), and that ceiling rests on a supply price nobody has quoted us.
 
 Solving backwards: for a single 1 kg order to cover the median Polish Performance Max CPA of
 69.30 PLN, **coffee would have to cost about 50 PLN/kg** — under half the one publicly quoted
@@ -43,15 +43,16 @@ revenue; input VAT is not reclaimable, so every cost below is the **gross** pric
 | Packaging + label | **0** under private label — Meksyk supplies doypack with valve and free template label edits | SUP-06 |
 | — if buying packaging separately | 1.52 PLN / 250 g pouch, 2.22 PLN / 1 kg pouch, 1.00 PLN label @1,000 szt | COST-24/25/27 |
 | Outer carton + filler | 1.50 PLN | ⚠ **ASSUMPTION** — excluded from every cost page found |
-| Shipping | **11.09 PLN** net, Furgonetka business InPost Paczkomat A | COST-09 |
+| Shipping | **15.41 PLN gross** paid by the current non-VAT company; page also displays 11.09 PLN net and the two columns do not reconcile at 23% | COST-09 |
 | COD surcharge | 2.49 PLN × 10% of orders | COST-11 + ⚠ assumption on share |
 | Payments | 1.6% + 1.00 PLN (Stripe BLIK, 72% of orders) / 1.5% + 1.00 PLN card | COST-16/17/20 |
 | Refunds + damage | 3% of revenue | ⚠ **ASSUMPTION** below the 5–7% all-category figure |
 | Discounts | 5% blended | ⚠ **ASSUMPTION** |
 | Founder labour | 8 min/order — charged only in the conservative scenario | A7 |
 
-**The structural fact that drives everything:** shipping costs **44.36 PLN per kg of coffee moved**
-on a single 250 g order, versus **11.09 PLN/kg** on a 1 kg order (COST-32). Basket weight, not
+**The structural fact that drives everything:** the displayed gross parcel cost is **61.64 PLN per
+kg of coffee moved** on a single 250 g order, versus **15.41 PLN/kg** on a 1 kg order (COST-09;
+derived). Basket weight, not
 carrier choice, is the largest lever in the whole model — and the market's 149 PLN free-delivery
 norm (CMP-45) already forces baskets towards 1 kg or three bags.
 
@@ -62,13 +63,13 @@ norm (CMP-45) already forces baskets towards 1 kg or three bags.
 Prices in all scenarios sit inside the **verified** Polish accessible-speciality band of
 120–190 PLN/kg (CMP-46).
 
-### Conservative — 124 PLN/kg verified cost, founder labour charged at 50 PLN/h
+### Conservative — 124 PLN/kg published indicative cost, founder labour charged at 50 PLN/h
 
 | Order | Revenue | COGS | Gross % | Contribution | Contr. % |
 |---|--:|--:|--:|--:|--:|
-| 1 × 250 g | 48.09 | 34.00 | 29.3% | **−8.08** | −16.8% |
-| 3 × 250 g bundle | 110.19 | 96.00 | 12.9% | **−12.06** | −10.9% |
-| 1 × 1 kg | 129.09 | 127.00 | 1.6% | **−25.40** | −19.7% |
+| 1 × 250 g | 48.09 | 34.00 | 29.3% | **−12.40** | −25.8% |
+| 3 × 250 g bundle | 110.19 | 96.00 | 12.9% | **−16.38** | −14.9% |
+| 1 × 1 kg | 129.09 | 127.00 | 1.6% | **−29.72** | −23.0% |
 
 **Every order shape loses money before a single złoty of advertising.** At the one price anybody
 publishes, and with the founder's time valued at all, the business is underwater on arrival. The
@@ -79,29 +80,30 @@ at 1.6% gross margin, because coffee cost scales with weight while price per kg 
 
 | Order | Revenue | Gross % | Contribution | After 69.30 CPA | LTV/CAC |
 |---|--:|--:|--:|--:|--:|
-| 1 × 250 g | 52.89 | 45.2% | 9.13 | **−60.17** | 0.19 |
-| 3 × 250 g bundle | 122.24 | 31.3% | **20.31** | **−48.99** | 0.43 |
-| 1 × 1 kg | 145.04 | 23.1% | 14.57 | −54.73 | 0.30 |
+| 1 × 250 g | 52.89 | 45.2% | 4.81 | **−64.49** | 0.10 |
+| 3 × 250 g bundle | 122.24 | 31.3% | **15.99** | **−53.31** | 0.33 |
+| 1 × 1 kg | 145.04 | 23.1% | 10.25 | −59.05 | 0.21 |
 
-Positive contribution — 6 to 20 PLN per order — and it is **nowhere near** a 69.30 PLN CPA.
-Break-even ROAS is 5.8×–10×. Across three orders, LTV/CAC peaks at **0.43**: for every złoty spent
-acquiring a customer, 43 groszy comes back over their modelled lifetime.
+Positive contribution — roughly 2 to 16 PLN per order — and it is **nowhere near** a 69.30 PLN
+all-category cost per conversion. Break-even ROAS is 7.6×–27.4×. Across three orders, LTV/CAC
+peaks at **0.33**: for every złoty spent acquiring a customer, 33 groszy comes back over their
+modelled lifetime.
 
 ### Optimistic — 95 PLN/kg (⚠ assumed volume terms a startup cannot justify)
 
 | Order | Revenue | Gross % | Contribution | After 69.30 CPA | Payback | LTV/CAC |
 |---|--:|--:|--:|--:|--:|--:|
-| 3 × 250 g bundle | 133.27 | 45.4% | **43.42** | −25.88 | order 3 | **1.03** |
-| 1 × 1 kg | 157.52 | 38.7% | 43.05 | −26.25 | order 3 | 1.02 |
+| 3 × 250 g bundle | 133.27 | 45.4% | **39.10** | −30.20 | never | **0.93** |
+| 1 × 1 kg | 157.52 | 38.7% | 38.73 | −30.57 | never | 0.92 |
 
-**Even the optimistic case does not cover a median CPA on the first order.** It reaches payback at
-order three, at LTV/CAC ≈ 1.0 — meaning the customer exactly repays their acquisition cost and
-contributes nothing. That is the *ceiling*, built on an unquoted supply price and generous repeat
-assumptions.
+**Even the optimistic case does not cover the benchmark on the first order or across the three
+modelled orders.** LTV/CAC remains below 1.0. That is the *ceiling*, built on an unquoted supply
+price and generous repeat assumptions.
 
 ### Resale sanity check — Route B, someone else's brand
 
-Contribution 3.35–12.81 PLN per order; break-even ROAS up to **31.7×** on the 1 kg order.
+Positive contribution is only 0.25–8.49 PLN per order, with one shape already negative;
+break-even ROAS reaches **580.7×** on the 1 kg order.
 Combined with the finding that **no wholesale programme permits relabelling** (SUP-35), Route B is
 both economically worse and strategically empty. Its cost input is derived rather than public, so
 this is illustrative — but nothing about it invites further investigation.
@@ -115,12 +117,12 @@ median Polish PMax CPA?
 
 | Cost PLN/kg | 1 kg contribution | Covers 69.30 CPA? |
 |--:|--:|---|
-| 124 (verified) | 0.57 | no |
-| 110 | 14.57 | no |
-| 100 | 24.57 | no |
-| 80 | 44.57 | no |
-| 60 | 64.57 | no |
-| **50** | **74.57** | **yes** |
+| 124 (published indicative) | −3.75 | no |
+| 110 | 10.25 | no |
+| 100 | 20.25 | no |
+| 80 | 40.25 | no |
+| 60 | 60.25 | no |
+| **50** | **70.25** | **yes** |
 
 **~50 PLN/kg is the requirement, and it is not reachable.** Green arabica at the C-market is
 ~26.70 PLN/kg (BM-28) *before* origin differential, freight, duty, ~15–18% roasting weight loss
@@ -212,25 +214,20 @@ The beans-only segment is real: Tchibo publicly invites machine owners to a coff
 subscription (B2B-10), Kocham Kawe differentiates on having no purchase obligation (B2B-11), and
 Coffeedesk's B2B arm reports **8,235 B2B clients / 67 m PLN a year** (B2B-21).
 
-### The arithmetic — and the VAT decision inside it
+### B2B arithmetic — publication gate closed
 
-Modelled at 150 PLN/kg, mid-point of the verified Polish speciality B2B band of 120-180 PLN/kg
-(B2B-14), with sales labour, samples, delivery and account management all costed (the A3
-correction — a warm channel is not a free channel):
+The first comparison mixed incompatible price bases and is withdrawn. `b2bAccount()` now keeps its
+publication gate closed until `taxModelStatus` and an explicit `priceBasis` are verified. Behind
+that gate, the corrected mechanism holds buyer-effective revenue constant and treats registration
+on the cost side: eligible gross coffee and delivery inputs are divided by `1 + vatRate` only when
+input VAT is deductible. A regression test pins the contribution difference to exactly the
+reclaimable input VAT on those lines.
 
-| 10 kg/month account | Monthly rev. | Monthly contr. | Payback | Lifetime contr. |
-|---|--:|--:|--:|--:|
-| **Verified 124 PLN/kg cost, labour charged, NON-VAT payer** | 1,219.50 | **-60.50** | never | **-1,635** |
-| **Verified 124 PLN/kg cost, labour charged, VAT-REGISTERED** | 1,500.00 | **+220.00** | **1.9 months** | **+3,975** |
-| Base 110 PLN/kg, labour not charged, VAT-registered | 1,500.00 | +385.00 | 0.3 months | +7,575 |
-
-**The non-VAT-payer status, not the coffee price, is what breaks B2B.** No VAT charged means the
-business buyer has nothing to deduct, so our price must be ~18.7% lower to cost them the same as a
-VAT-registered roaster (REG-10). Registering voluntarily is worth roughly **280 PLN/month per
-10 kg account** and costs nothing.
-
-**B2B clears its hurdle at the worst cost we actually verified.** B2C does not clear its hurdle at
-any cost we could plausibly obtain. That asymmetry is the finding of Gate 0.
+This mechanism proves only the **direction** of the VAT effect. It does not publish a contribution,
+payback or lifetime value because SUP-05's public 124 PLN/kg figure and B2B-14's 150 PLN/kg selling
+benchmark do not state compatible net/gross bases. B2B remains a live hypothesis, not a proven or
+disproven channel. Three explicit-basis supplier quotes and accountant review are required before
+the gate may open.
 
 ### What is still invented here
 

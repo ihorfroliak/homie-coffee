@@ -143,17 +143,29 @@ export function b2bAccount({ p, monthlyKg }) {
   if (taxModelStatus !== 'verified_v1' || !['net', 'gross', 'buyer_effective_cost'].includes(priceBasis)) {
     return {
       resolved: false,
-      reason: 'B2B VAT model is disabled pending a verified price basis and consistent tax treatment.',
+      reason: 'B2B publication is disabled pending compatible quote bases and accountant-reviewed tax treatment.',
       monthlyKg,
     }
   }
 
-  // A non-VAT payer gives a VAT-registered buyer nothing to deduct, so the list price must be cut
-  // to cost that buyer the same as a registered supplier's. Consumers are unaffected (REG-10).
-  const handicap = v(p.b2b.vatRegistered) === true ? 0 : (v(p.b2b.nonVatPayerPriceHandicap) ?? 0)
-  const revenue = monthlyKg * (v(p.b2b.pricePerKg) ?? NaN) * (1 - handicap)
-  const coffeeCost = monthlyKg * (v(p.supplyModels.contractRoastPrivateLabel.costPerKgRoastedGross) ?? NaN)
-  const delivery = v(p.shipping.b2bDeliveryCostPerDrop) ?? NaN
+  // Hold the business buyer's effective cost constant. For a VAT-registered seller, output VAT is
+  // collected on top of net revenue and deducted by the buyer, so it is not revenue. Registration
+  // changes the cost side: VAT-bearing inputs become deductible. A gross market quote is first
+  // normalised to its buyer-effective/net basis; a net or buyer-effective quote is already there.
+  const vatRate = v(p.vatRate) ?? NaN
+  const quotedPricePerKg = v(p.b2b.pricePerKg) ?? NaN
+  const buyerEffectivePricePerKg = priceBasis === 'gross'
+    ? quotedPricePerKg / (1 + vatRate)
+    : quotedPricePerKg
+  const revenue = monthlyKg * buyerEffectivePricePerKg
+
+  const inputVatDeductible = v(p.b2b.vatRegistered) === true
+  const grossCoffeeCost = monthlyKg * (v(p.supplyModels.contractRoastPrivateLabel.costPerKgRoastedGross) ?? NaN)
+  const grossDelivery = v(p.shipping.b2bDeliveryCostPerDrop) ?? NaN
+  const costDivisor = inputVatDeductible ? 1 + vatRate : 1
+  const coffeeCost = grossCoffeeCost / costDivisor
+  const delivery = grossDelivery / costDivisor
+  const reclaimedInputVat = (grossCoffeeCost + grossDelivery) - (coffeeCost + delivery)
   const rate = v(p.fulfilment.founderHourlyOpportunityCost) ?? 0
 
   const acquisitionCost = (v(p.b2b.salesHoursPerWonAccount) ?? 0) * rate
@@ -166,7 +178,7 @@ export function b2bAccount({ p, monthlyKg }) {
   const expectedMonths = churn > 0 ? 1 / churn : null
 
   return {
-    resolved: true,
+    resolved: true, inputVatDeductible, buyerEffectivePricePerKg, reclaimedInputVat,
     monthlyKg, revenue, coffeeCost, delivery, monthlyServiceCost, monthlyContribution, acquisitionCost,
     paybackMonths: monthlyContribution > 0 ? acquisitionCost / monthlyContribution : null,
     expectedMonths,
@@ -186,10 +198,6 @@ const ORDER_SHAPES = [
 ]
 
 const B2B_SIZES = [5, 10, 20]
-
-// Verified Polish median cost per acquisition (BM-18).
-const CPA_PMAX = 69.30
-const CPA_SEARCH = 86.46
 
 function run() {
   const baseParams = read('params.json')
@@ -214,6 +222,8 @@ function run() {
   for (const name of names) {
     const s = scenarios[name]
     const p = merge(baseParams, s.overrides)
+    const cpaPmax = v(p.acquisition.medianPmaxCpa)
+    const cpaSearch = v(p.acquisition.medianSearchCpa)
     const costKg = v(p.supplyModels[s.supplyModel].costPerKgRoastedGross)
     const labour = v(p.fulfilment.founderHourlyOpportunityCost)
 
@@ -233,18 +243,18 @@ function run() {
     }
 
     console.log('')
-    console.log(`Against verified Polish median CPA (BM-18): PMax ${CPA_PMAX}, Search ${CPA_SEARCH}`)
+    console.log(`Against Polish all-category median cost per conversion (BM-18): PMax ${cpaPmax}, Search ${cpaSearch}`)
     console.log('')
     console.log('| Order | Contribution | After PMax CPA | After Search CPA | Payback order | LTV/CAC @ PMax |')
     console.log('|---|--:|--:|--:|--:|--:|')
     for (const o of orders) {
-      const ch = cohort({ p, order: o, cac: CPA_PMAX })
-      console.log(`| ${o.shape} | ${PLN(o.contribution)} | ${PLN(o.contribution - CPA_PMAX)} | ${PLN(o.contribution - CPA_SEARCH)} | ${ch.paybackOrder ?? 'never'} | ${ch.ltvToCac ? ch.ltvToCac.toFixed(2) : '—'} |`)
+      const ch = cohort({ p, order: o, cac: cpaPmax })
+      console.log(`| ${o.shape} | ${PLN(o.contribution)} | ${PLN(o.contribution - cpaPmax)} | ${PLN(o.contribution - cpaSearch)} | ${ch.paybackOrder ?? 'never'} | ${ch.ltvToCac ? ch.ltvToCac.toFixed(2) : '—'} |`)
     }
 
     const best = orders.reduce((a, b) => (b.contribution > a.contribution ? b : a))
     console.log('')
-    console.log(`> Best shape: ${best.shape}, contribution ${PLN(best.contribution)} PLN. A median PMax CPA of ${CPA_PMAX} PLN is ${best.contribution >= CPA_PMAX ? 'COVERED' : 'NOT covered'} by the first order.`)
+    console.log(`> Best shape: ${best.shape}, contribution ${PLN(best.contribution)} PLN. A median PMax cost per conversion of ${cpaPmax} PLN is ${best.contribution >= cpaPmax ? 'COVERED' : 'NOT covered'} by the first order.`)
 
     console.log('')
     console.log('| B2B account | Monthly rev. | Monthly contr. | Acquisition cost | Payback (months) | Lifetime contr. |')
@@ -258,12 +268,13 @@ function run() {
       }
     }
     console.log('')
-    console.log('_B2B VAT output is intentionally unresolved until price basis, output VAT and deductible input VAT are modelled consistently._')
+    console.log('_B2B output is intentionally unresolved until quote bases are compatible and the tax treatment is accountant-reviewed._')
   }
 
   // Solve: at what cost per kg does the best single order cover a median CPA?
   console.log('')
-  console.log(`### Break-even solve — cost/kg needed for ONE 1 kg order to cover a ${CPA_PMAX} PLN CPA`)
+  const cpaPmax = v(baseParams.acquisition.medianPmaxCpa)
+  console.log(`### Break-even solve — cost/kg needed for ONE 1 kg order to cover a ${cpaPmax} PLN cost per conversion`)
   console.log('')
   console.log('| Cost PLN/kg | 1 kg order contribution | Covers CPA? |')
   console.log('|--:|--:|---|')
@@ -274,7 +285,7 @@ function run() {
       supplyModels: { contractRoastPrivateLabel: { costPerKgRoastedGross: { value: c, src: 'solve' } } },
     })
     const o = b2cOrder({ p, s: sc, shape: { ...kgShape, price: sc.prices.price1kg } })
-    console.log(`| ${c} | ${PLN(o.contribution)} | ${o.contribution >= CPA_PMAX ? 'yes' : 'no'} |`)
+    console.log(`| ${c} | ${PLN(o.contribution)} | ${o.contribution >= cpaPmax ? 'yes' : 'no'} |`)
   }
   console.log('')
 }

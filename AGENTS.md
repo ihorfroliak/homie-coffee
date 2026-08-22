@@ -71,9 +71,20 @@ agent here. Say "not run", and why.
 
 ## Build and test expectations
 
-**To be filled in once the technology decision (D-006) is approved.** It will define: the single
-command that runs the full check suite, the required checks in CI, and the Node/package-manager
-versions. Until then there is no build to run, because there is no application.
+D-006 is approved, but production application scaffolding remains blocked by D-024 and the open
+D-003–D-005/D-008 decisions. The current branch contains analysis code and a throwaway visual
+prototype only.
+
+Run the complete currently available suite from the repository root:
+
+```text
+npm run check
+```
+
+It runs the unit-economics regression tests with the explicit per-file Node test command, executes
+all model scenarios with the B2B publication gate enforced, and builds the local Admin prototype.
+Production lint, typecheck, PostgreSQL integration and Playwright scripts
+must be added with the approved production slice; they must not be faked by this prototype.
 
 Known environment constraints: Node 24 / npm 11 locally; a sibling project recorded `tsx`
 failing on Windows + Node 24 with `uv_os_get_passwd ENOMEM`, so CI must pin a tested LTS rather

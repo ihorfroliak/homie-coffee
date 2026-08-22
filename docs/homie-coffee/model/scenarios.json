@@ -131,7 +131,7 @@
     "overrides": {}
   },
   "baseVatRegistered": {
-    "_stance": "Identical to base, except the company registers for VAT voluntarily. Isolates ONE variable: the B2B price handicap a non-VAT payer carries (REG-10). B2C rows are unchanged and can be ignored here.",
+    "_stance": "Identical to base, except the company registers for VAT voluntarily. The B2B publication gate remains closed; this scenario may be used only after quote basis and tax treatment are verified.",
     "supplyModel": "contractRoastPrivateLabel",
     "prices": {
       "price250": 42.0,
@@ -159,7 +159,7 @@
     }
   },
   "conservativeVatRegistered": {
-    "_stance": "The VERIFIED cost of 124 PLN/kg, founder labour charged, but VAT-registered. The honest worst case for a B2B-led plan.",
+    "_stance": "The single published indicative cost of 124 PLN/kg, founder labour charged, but VAT-registered. Net/gross basis is unverified, so this is not a worst-case claim and B2B output remains gated.",
     "supplyModel": "contractRoastPrivateLabel",
     "prices": {
       "price250": 39.0,
