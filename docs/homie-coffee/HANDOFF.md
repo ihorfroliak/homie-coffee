@@ -147,3 +147,17 @@ Append-only coordination record for Claude Code, Codex and Ihor.
   every dependency needed by `npm run check` on a fresh clone.
 - **Claude prompt:** `reviews/2026-08-22-claude-rereview-request.uk.md`; review range is
   `28a0f81..HEAD` and therefore includes both the implementation and reproducibility follow-up.
+
+## 2026-09-02 — Context separated from HeyHomie
+
+- Homie Coffee work had been performed inside a Codex task belonging to the HeyHomie project.
+- `CONTEXT-MIGRATION-2026-09-02.md` now records the boundary, chronological prompt index, exact Git
+  lineage, canonical reading order, current blockers and verification entry point.
+- A dedicated Codex task was created under the saved local project `Homie Coffee`, starting from
+  `codex/admin-dashboard-design-system` with instructions to verify state before further work.
+- The original HeyHomie task remains intact as the verbatim visible-conversation archive. Hidden
+  chain-of-thought is not exportable and is not a project source of truth.
+- **Verification:** `git diff --check` passed. `npm run check` was not rerun because this migration
+  changes documentation only and no executable input.
+- No product logic, model result, decision, external contact, merge or deployment changed during
+  this migration.
