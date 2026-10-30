@@ -161,3 +161,63 @@ Append-only coordination record for Claude Code, Codex and Ihor.
   changes documentation only and no executable input.
 - No product logic, model result, decision, external contact, merge or deployment changed during
   this migration.
+
+## 2026-10-30 — Codex continuation baseline verification
+
+- **Branch:** `codex/admin-dashboard-design-system`.
+- **Verified source SHA:** `28f41a64b6053252df0739d73cbc7436861f4d6d`, identical locally and on
+  `origin/codex/admin-dashboard-design-system` after `git fetch origin`.
+- **Scope / acceptance:** read the owner's continuation request and canonical documents, verify
+  the remote state and clean dependency installation, run the existing suite, report discrepancies
+  and propose two possible next steps. This is not Claude's independent re-review.
+- **Files changed:** only this append-only journal entry. The commit containing this entry is
+  discoverable with `git log -1 --format=%H -- docs/homie-coffee/HANDOFF.md` at this handoff.
+- **Repository result:** no branch, source or decision-state divergence from the supplied prompt.
+  Before this entry, `git status --short --branch` printed only
+  `## codex/admin-dashboard-design-system...origin/codex/admin-dashboard-design-system`;
+  `git rev-list --left-right --count HEAD...origin/codex/admin-dashboard-design-system` printed
+  `0 0`. The requested history inspection printed all 19 commits, ending at `28f41a6`.
+- **Environment discrepancy:** the first sandboxed `git fetch origin` failed with
+  `error: cannot open '.git/FETCH_HEAD': Permission denied`; its approved retry outside the
+  sandbox exited 0 with no output. The first sandboxed npm install exited 1 with
+  `npm error Exit handler never called!`; the approved retry below succeeded. The evidence does
+  not establish the underlying npm failure cause. No project fix was required.
+- **Environment:** `node --version` printed `v24.14.0`; `npm --version` printed `11.9.0`.
+- **Commands / actual output:**
+  - `npm ci --ignore-scripts --no-audit --no-fund` (approved retry): exit 0,
+    `added 68 packages in 26s`.
+  - `npm run check`: exit 0. Node test runner printed `tests 5`, `pass 5`, `fail 0`,
+    `cancelled 0`, `skipped 0`, `todo 0`. All 18 B2B rows across six scenarios printed
+    `unresolved` in every result column. Vite printed `vite v6.4.2 building for production...`,
+    `4570 modules transformed.` and `built in 14.10s`. This is the local prototype bundle.
+  - `git diff --check 28a0f81..HEAD` and `git diff --check` before this entry: exit 0, no output.
+- **Source inspection:** row menu and filter remain inline in `App.jsx`; Escape closes them,
+  but there are no outside-click handlers, popup focus management, arrow/Home/End handlers or
+  viewport collision handling. Polish strings remain inline. CSS positions the row menu below
+  its trigger inside the scrolling table. These match the prompt's known limitations; browser
+  behavior was not re-tested in this task. The local `worker/` and `scripts/` folders are empty
+  and were left untouched. No tracked hosting descriptor, worker, build adapter or CI file was
+  found in the inspected paths; Vite remains bound to `127.0.0.1`.
+- **Commercial / production state:** paid-acquisition B2C remains NO-GO under current
+  assumptions; B2B and Gate 0 remain unresolved. D-024 requires at least three explicit-basis
+  roaster quotes, accountant-reviewed VAT and approval of D-003–D-005/D-008 before production.
+  Root `AGENTS.md` also requires approval of D-007. D-006/D-023 are approved; Slice A is proposed.
+  The tracked review files still contain the re-review request, without a subsequent Claude
+  re-review verdict.
+- **Next-step proposals — neither started nor approved by this entry:**
+  - **A — prototype polish:** first complete row menu/filter behavior with one declared widget
+    pattern, focus restoration, outside-click and viewport handling; then add the PL/EN seam
+    and decompose the UI in separate reviewable changes. Keep actions demonstrational. Verify
+    keyboard/pointer flows, edge-of-table placement, translations and the existing root suite.
+  - **B — Admin component/state specification (recommended):** prepare a review proposal covering
+    component boundaries, state transitions, focus/keyboard behavior, popup placement, demo-action
+    limits, PL/EN keys and acceptance checks. Mark unresolved domain decisions explicitly;
+    Claude owns canonical specification review. It can guide subsequent prototype work.
+- **Not done:** no prototype, model or canonical specification changes; no new implementation,
+  browser smoke, production lint/typecheck, PostgreSQL integration or Playwright run. Those
+  production tools are not part of the current suite. No supplier/accountant/lawyer contact,
+  accounts, secrets, spend, infrastructure, CI, merge or deployment.
+- **Next owner / action:** Ihor chooses A or B; Claude's independent re-review remains pending.
+  Codex can perform the selected local prototype work or prepare the selected specification
+  proposal while D-024 remains closed. The owner requested this journal-only commit to be
+  pushed to the existing branch; no merge is authorised.
