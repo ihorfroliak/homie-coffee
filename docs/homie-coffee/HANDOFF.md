@@ -221,3 +221,61 @@ Append-only coordination record for Claude Code, Codex and Ihor.
   Codex can perform the selected local prototype work or prepare the selected specification
   proposal while D-024 remains closed. The owner requested this journal-only commit to be
   pushed to the existing branch; no merge is authorised.
+
+## 2026-10-31 — Supplied design import and one Codex working process
+
+- **Implementation commit:** `0c9ca2d` on `codex/design-import-workspace`, based on `450e2cb`.
+  Work and owner decisions began 2026-10-30; verification finished 2026-10-31 (Europe/Warsaw).
+- **Owner request:** preserve/integrate the ZIP and two HTML designs; continue research,
+  decisions, prompts and development here without mandatory Claude review; recap business
+  processes and consider HeyHomie/Homies patterns. D-025/D-026 record this scope. The supplied
+  archive's own instructions were not adopted. D-024 and owner-only merge remain.
+- **Files changed:** operating rules (`AGENTS.md`, `CLAUDE.md`, doc 17), decision register,
+  README, new `WORKING-BRIEF.uk.md`; pinned designs/runtime helpers/manifest under
+  `design/sources/2026-10-30`; prototype workspace, local export bootstrap, responsive adapter,
+  build entry points, import tests, screenshots and `design-import-qa.md`; `.gitignore` and
+  `.gitattributes`. This append-only journal follows the implementation commit.
+- **Preservation:** all 37 ZIP entries extracted with path-containment checks into ignored
+  `.local/design-imports/2026-10-30`. Separate HTML attachments match archive entries exactly.
+  Tracked copies replace sample customer names/review authors and the address with DEMO values;
+  originals remain local. No mixed-product customer-like examples are published. Source hashes
+  and original hashes are recorded; Git attributes preserve source bytes across platforms.
+- **Acceptance met:** one local workspace opens Shop, Admin Lab and original Option 1 operations;
+  supplied screens retain their visual structure and state handlers; local React/Manrope replace
+  CDN bootstrap/font loads; DEMO/noindex boundaries present; import provenance and unapproved
+  business claims are explicit. Phone header clipping found during QA was corrected.
+- **Business recap:** private-label supply remains an assumption, B2B-first remains open, B2B
+  economics remain unresolved. Own roasting, subscriptions, workshops, referral credits and
+  the export's prices/claims are design proposals. No current legal/tax verification is claimed.
+  The working brief includes process boundaries, outstanding decisions and a next-slice prompt.
+- **Cross-product evidence:** inspected supplied HeyHomie system-spec/map and client-account
+  status/timeline/billing patterns. Homies-specific production practices are not independently
+  verified. No users, credentials, customer lists or pricing are shared between projects.
+- **Final automated command:** `npm run check` exited 0. Actual output: `tests 8`, `pass 8`,
+  `fail 0`; all 18 B2B rows across six scenarios remain `unresolved`; Vite printed
+  `4588 modules transformed.` and `built in 25.32s`. Full local output is in ignored
+  `.local/check-final-2026-10-31.log`. Earlier bootstrap build failed on top-level await;
+  replaced with an async bootstrap, then the full suite above passed.
+- **Other checks:** `git diff --check` and staged diff check exited 0 (only line-ending
+  conversion warnings). Credential-pattern scan of imported text and prototype source printed
+  `no matches`; diff/source inspection found no production credentials, real customer dataset or
+  private supplier quotes. This is not a comprehensive security audit.
+- **Browser evidence:** desktop source/integrated comparison at 1480×1060, Shop tablet 768×1024
+  and Telefon 390×844, workspace desktop/phone. Catalogue 6→1 lot after floral filter; product
+  adds to basket; 108.00 + 12.99 = 120.99 demo total; two checkout clicks end at
+  `Zamówienie przyjęte`. Quiz advances question 1→2. Admin tabs, D3 expansion and profile
+  recommendation state verified; original operations route renders. Screenshots and exact
+  limits are recorded in `prototypes/admin-dashboard/design-import-qa.md`.
+- **Environment:** sandboxed server was unreachable from the browser; an approved local-only
+  server retry worked. A later turn ended its tool session, so preview was restored as a hidden
+  background Vite process bound to `127.0.0.1:5174` (PID 41292 at launch), logs under `.local/`.
+- **Not done:** no product photographs were present in the archive; placeholders remain. No
+  shared Shop/Admin state, complete quiz validation, full keyboard/focus audit, PL/EN or native
+  decomposition. Production lint/typecheck, database integration and Playwright suite were
+  **not run / do not yet exist**. No real analytics, messages, payments, order processing,
+  supplier/accountant contact, external account, spend, production scaffold, deploy or merge.
+- **Next owner / action:** continue with Ihor and Codex here. Next proposed small slice is the
+  catalogue → product → basket → demo-confirmation component/state contract, focus behavior,
+  PL/EN seam and local event contract; then one shared demo order in operations. Commercial
+  proof/owner approvals remain a separate prerequisite for a production sales slice. The old
+  mandatory-Claude re-review requirement is superseded by D-025, not reported as completed.
