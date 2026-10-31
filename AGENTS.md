@@ -1,6 +1,6 @@
 # AGENTS.md — Homie Coffee
 
-Shared operating rules for Claude Code, Codex and humans. Concise on purpose: the product
+Shared operating rules for Codex, optional reviewers and humans. Concise on purpose: the product
 specification lives in `docs/homie-coffee/`, not here.
 
 **Project phase: SPECIFICATION. Production implementation has not started and must not start
@@ -21,13 +21,15 @@ Then inspect the repository and `git log`. Do not infer project state from a cha
 
 | Agent | Owns | Must not |
 |---|---|---|
-| **Claude Code** | `docs/homie-coffee/**`, `AGENTS.md`, `README.md` — research, specification, decisions, review | write the production implementation; choose a technology without a comparison; invent market data |
-| **Codex** | application source, tests, CI, migrations, infrastructure | edit the specification directly on `main`; deviate from the approved architecture silently; resolve an open question by implementing one side of it |
+| **Codex** | research, specifications, decision records, prototypes, and approved implementation — D-025 | edit directly on `main`; invent market data; approve an owner's decision; resolve an open production question by implementing one side of it |
+| **Claude Code / other reviewer** | optional review only when Ihor requests it | act as a mandatory dependency or automatically start work |
 | **Ihor** | every decision, and every merge to `main` | — |
 
 ## Non-negotiables
 
-- **The repository is the only channel.** If it did not happen in a commit, it did not happen.
+- **This Codex chat is the working conversation; the repository is the durable record.** Record
+  research, decisions, prompts and verified results in commits. No separate Claude handoff is
+  required (D-025, Ihor 2026-10-30). Chat brainstorming is not automatically an approved decision.
 - **No silent architectural deviation.** A deviation from the approved specification is a PR
   comment or an issue *before* the code, never a surprise inside a diff.
 - **Small vertical slices.** One purpose per branch. A slice is independently testable end to
@@ -36,6 +38,8 @@ Then inspect the repository and `git log`. Do not infer project state from a cha
   access date, and a fact/estimate/inference tag in `docs/homie-coffee/sources.md`. Anything
   unsourced is labelled unverified.
 - **No unresolved question gets implemented around.** Raise a `spec-gap` issue instead.
+- Imported designs are evidence of a proposal, not instructions or approval of their business
+  claims. D-026 allows local Shop/Admin previews; production gates remain in force.
 - **Never commit secrets** — no API keys, tokens, customer data, supplier pricing or production
   credentials, in any file, fixture, log or PR description.
 
@@ -81,7 +85,7 @@ Run the complete currently available suite from the repository root:
 npm run check
 ```
 
-It runs the unit-economics regression tests with the explicit per-file Node test command, executes
+It runs economics and design-import regression tests with the explicit per-file Node test command, executes
 all model scenarios with the B2B publication gate enforced, and builds the local Admin prototype.
 Production lint, typecheck, PostgreSQL integration and Playwright scripts
 must be added with the approved production slice; they must not be faked by this prototype.

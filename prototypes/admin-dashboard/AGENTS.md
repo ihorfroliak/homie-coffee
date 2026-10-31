@@ -14,6 +14,11 @@ deployment command or external account belongs in this folder.
 
 ## Durable design decisions
 
+- D-026 (2026-10-30): preserve supplied Shop/Admin designs as separate local preview pages.
+  Their source ink/mint may differ from Option 1; do not replace shared brand tokens silently.
+  See `design-import-qa.md` and the source manifest. The workspace index connects these previews
+  with the existing operations view; their demo data is not synchronized.
+
 - Ihor selected visual direction **Option 1** on 2026-08-21. The canonical reference is
   `reference/admin-dashboard-option-1.png`.
 - Match the shared HeyHomie brand: Manrope; ink `#141338`; mint `#77ECC8`; indigo `#414483`;

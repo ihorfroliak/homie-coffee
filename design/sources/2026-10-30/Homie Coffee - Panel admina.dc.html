@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<title>Homie Coffee — panel administratora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #ECEAF2; -webkit-font-smoothing: antialiased; }
+  a { color: #414483; text-decoration: none; }
+  a:hover { color: #14133A; }
+  .cs { container-type: inline-size; }
+  .cs::-webkit-scrollbar { width: 9px; }
+  .cs::-webkit-scrollbar-thumb { background: rgba(20,19,56,0.16); border-radius: 5px; }
+  .cs :focus-visible { outline: 2px solid #414483; outline-offset: 2px; border-radius: 6px; }
+  @container (max-width: 900px) {
+    .cs [style*="repeat(4, 1fr)"], .cs [style*="repeat(3, 1fr)"], .cs [style*="repeat(2, 1fr)"] { grid-template-columns: 1fr !important; }
+    .cs [style*="width: 300px"], .cs [style*="width: 360px"] { width: 100% !important; box-sizing: border-box !important; }
+  }
+</style>
+</helmet>
+
+<div style="font-family: Manrope, sans-serif; color: #14133A; padding: 40px 44px 80px;">
+  <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;">
+    <sc-for list="{{ pills }}" as="p" hint-placeholder-count="4">
+      <div onClick="{{ p.go }}" style="{{ p.style }}">{{ p.label }}</div>
+    </sc-for>
+  </div>
+
+  <x-import component-from-global-scope="ChromeWindow" from="./browser-window.jsx" width="{{ frameW }}" height="{{ frameH }}" url="{{ url }}" tabs="{{ tabs }}" hint-size="1360px,940px">
+    <div class="cs" style="height: 100%; overflow-y: auto; background: #fff;">
+      <div style="position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.94); backdrop-filter: blur(14px); border-bottom: 1px solid #EDEEEF;">
+        <div style="padding: 0 32px; height: 64px; display: flex; align-items: center; gap: 20px;">
+          <div style="display: flex; align-items: center; gap: 9px; flex: none;">
+            <span style="width: 32px; height: 32px; border-radius: 10px; background: #14133A; display: flex; align-items: center; justify-content: center; color: #36F0C7; font-weight: 800; font-size: 14px;">HC</span>
+            <span style="font-weight: 800; font-size: 17px; letter-spacing: -0.03em;">Panel administratora</span>
+          </div>
+          <div style="flex: 1;"></div>
+          <div style="font-weight: 600; font-size: 13px; color: #52516B;">Najbliższe palenie: wtorek 15 września · zamknięcie zamówień pon. 18:00</div>
+        </div>
+      </div>
+
+      <sc-if value="{{ isEvents }}" hint-placeholder-val="{{ true }}">
+        <div style="padding: 32px; box-sizing: border-box;">
+          <h1 style="font-weight: 800; font-size: 32px; letter-spacing: -0.035em; margin: 0;">Zdarzenia</h1>
+          <p style="font-weight: 500; font-size: 14.5px; line-height: 1.6; color: #52516B; margin: 8px 0 0; max-width: 66ch;">Trzynaście zdarzeń, które zbieramy w sklepie. Każde ma jeden konkretny użytek — kolumna po prawej mówi, do czego służy, a nie tylko że istnieje.</p>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 22px;">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="border: 1px solid #EDEEEF; border-radius: 14px; padding: 16px 18px;">
+                <div style="font-weight: 700; font-size: 12.5px; color: #52516B;">{{ k.label }}</div>
+                <div style="font-weight: 800; font-size: 28px; letter-spacing: -0.04em; margin-top: 4px;">{{ k.value }}</div>
+                <div style="font-weight: 600; font-size: 12px; color: #52516B; margin-top: 2px;">{{ k.note }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="border: 1px solid #EDEEEF; border-radius: 16px; overflow: hidden; margin-top: 20px;">
+            <div style="display: grid; grid-template-columns: 220px 150px 1fr; background: #F6FBFF; border-bottom: 1px solid #EDEEEF;">
+              <div style="padding: 12px 18px; font-weight: 700; font-size: 12.5px; color: #52516B;">Zdarzenie</div>
+              <div style="padding: 12px 18px; font-weight: 700; font-size: 12.5px; color: #52516B;">Ostatnie 7 dni</div>
+              <div style="padding: 12px 18px; font-weight: 700; font-size: 12.5px; color: #52516B;">Do czego używamy</div>
+            </div>
+            <sc-for list="{{ eventRows }}" as="e" hint-placeholder-count="13">
+              <div style="display: grid; grid-template-columns: 220px 150px 1fr; border-bottom: 1px solid #EDEEEF;">
+                <div style="padding: 12px 18px; font-weight: 800; font-size: 13px;">{{ e.name }}</div>
+                <div style="padding: 12px 18px; display: flex; align-items: center; gap: 10px;">
+                  <div style="flex: 1; height: 6px; border-radius: 999px; background: #EDEEEF; position: relative;">
+                    <div style="{{ e.bar }}"></div>
+                  </div>
+                  <span style="font-weight: 700; font-size: 12.5px; min-width: 34px; text-align: right;">{{ e.count }}</span>
+                </div>
+                <div style="padding: 12px 18px; font-weight: 500; font-size: 13px; line-height: 1.45; color: #52516B;">{{ e.use }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isMails }}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 32px; box-sizing: border-box;">
+          <h1 style="font-weight: 800; font-size: 32px; letter-spacing: -0.035em; margin: 0;">Cykl listów</h1>
+          <p style="font-weight: 500; font-size: 14.5px; line-height: 1.6; color: #52516B; margin: 8px 0 0; max-width: 66ch;">Pięć maili po zakupie. Kliknij kartę, żeby zobaczyć treść i warunek wysyłki.</p>
+
+          <div style="position: relative; margin-top: 30px; padding-left: 4px;">
+            <div style="position: absolute; left: 20px; top: 18px; bottom: 18px; width: 2px; background: #EDEEEF;"></div>
+            <div style="display: grid; gap: 12px;">
+              <sc-for list="{{ mails }}" as="m" hint-placeholder-count="5">
+                <div onClick="{{ m.go }}" style="{{ m.style }}">
+                  <div style="display: flex; gap: 18px; align-items: flex-start;">
+                    <span style="{{ m.dayStyle }}">{{ m.day }}</span>
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                        <span style="font-weight: 800; font-size: 16.5px;">{{ m.title }}</span>
+                        <span style="font-weight: 700; font-size: 12.5px; color: #414483;">{{ m.stat }}</span>
+                      </div>
+                      <div style="font-weight: 600; font-size: 13px; color: #52516B; margin-top: 3px;">{{ m.subject }}</div>
+                      <div style="{{ m.bodyStyle }}">
+                        <div style="font-weight: 500; font-size: 13.5px; line-height: 1.6; color: #52516B; max-width: 66ch;">{{ m.body }}</div>
+                        <div style="font-weight: 700; font-size: 12.5px; margin-top: 10px;">Warunek wysyłki: <span style="font-weight: 600; color: #52516B;">{{ m.cond }}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isQueue }}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 32px; box-sizing: border-box;">
+          <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <div>
+              <h1 style="font-weight: 800; font-size: 32px; letter-spacing: -0.035em; margin: 0;">Kolejka wypału</h1>
+              <p style="font-weight: 500; font-size: 14.5px; color: #52516B; margin: 8px 0 0;">Co idzie do bębna we wtorek 15 września.</p>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="font-weight: 800; font-size: 32px; letter-spacing: -0.04em;">{{ queueTotal }}</span>
+              <span style="font-weight: 600; font-size: 13.5px; color: #52516B;">zielonego ziarna do wypalenia</span>
+            </div>
+          </div>
+
+          <div style="border: 1px solid #EDEEEF; border-radius: 16px; overflow: hidden; margin-top: 22px;">
+            <div style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; background: #F6FBFF; border-bottom: 1px solid #EDEEEF;">
+              <div style="padding: 12px 18px; font-weight: 700; font-size: 12.5px; color: #52516B;">Lot</div>
+              <div style="padding: 12px 18px; font-weight: 700; font-size: 12.5px; color: #52516B;">Zamówienia</div>
+              <div style="padding: 12px 18px; font-weight: 700; font-size: 12.5px; color: #52516B;">Subskrypcje</div>
+              <div style="padding: 12px 18px; font-weight: 700; font-size: 12.5px; color: #52516B;">Zapas zielonego</div>
+              <div style="padding: 12px 18px; font-weight: 700; font-size: 12.5px; color: #52516B;">Do wypału</div>
+            </div>
+            <sc-for list="{{ queue }}" as="q" hint-placeholder-count="6">
+              <div style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid #EDEEEF; align-items: center;">
+                <div style="padding: 13px 18px;">
+                  <div style="font-weight: 800; font-size: 14px;">{{ q.name }}</div>
+                  <div style="font-weight: 600; font-size: 12px; color: #52516B; margin-top: 2px;">{{ q.origin }}</div>
+                </div>
+                <div style="padding: 13px 18px; font-weight: 700; font-size: 13.5px;">{{ q.orders }}</div>
+                <div style="padding: 13px 18px; font-weight: 700; font-size: 13.5px;">{{ q.subs }}</div>
+                <div style="padding: 13px 18px;">
+                  <div style="font-weight: 700; font-size: 13.5px;">{{ q.stock }}</div>
+                  <div style="{{ q.warnStyle }}">{{ q.warn }}</div>
+                </div>
+                <div style="padding: 13px 18px;">
+                  <input value="{{ q.plan }}" onChange="{{ q.set }}" style="width: 84px; height: 38px; border-radius: 4px; border: 1.5px solid #DDE3EC; padding: 0 10px; font-family: Manrope, sans-serif; font-weight: 700; font-size: 13.5px; color: #14133A; background: #fff;">
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
+            <div onClick="{{ lockQueue }}" style="height: 46px; padding: 0 20px; border-radius: 8px; background: #36F0C7; display: flex; align-items: center; cursor: pointer; font-weight: 700; font-size: 14.5px;">{{ lockLabel }}</div>
+            <div style="height: 46px; padding: 0 18px; border-radius: 8px; border: 1.5px solid #DDE3EC; display: flex; align-items: center; font-weight: 700; font-size: 14px; color: #52516B;">Ubytek masy przy wypale: 16%</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 32px; box-sizing: border-box;">
+          <h1 style="font-weight: 800; font-size: 32px; letter-spacing: -0.035em; margin: 0;">Profil klienta</h1>
+          <p style="font-weight: 500; font-size: 14.5px; line-height: 1.6; color: #52516B; margin: 8px 0 0; max-width: 66ch;">Co system wie o kliencie po trzech zamówieniach i na czym opiera rekomendację.</p>
+
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 22px; align-items: flex-start;">
+            <div style="width: 360px; flex: none; border: 1px solid #EDEEEF; border-radius: 16px; padding: 22px 24px;">
+              <div style="font-weight: 800; font-size: 20px; letter-spacing: -0.025em;">Klient DEMO</div>
+              <div style="font-weight: 600; font-size: 13px; color: #52516B; margin-top: 2px;">Klient od marca 2026 · 3 zamówienia · subskrypcja co 4 tygodnie</div>
+              <div style="display: grid; gap: 0; margin-top: 16px; border-top: 1px solid #EDEEEF;">
+                <sc-for list="{{ profileRows }}" as="p" hint-placeholder-count="6">
+                  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #EDEEEF;">
+                    <span style="font-weight: 600; font-size: 13px; color: #52516B;">{{ p.k }}</span>
+                    <span style="font-weight: 700; font-size: 13px; text-align: right;">{{ p.v }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="flex: 1; min-width: 320px; display: grid; gap: 16px;">
+              <div style="border: 1px solid #EDEEEF; border-radius: 16px; padding: 22px 24px;">
+                <div style="font-weight: 800; font-size: 18px; letter-spacing: -0.02em;">Zero-party data z quizu</div>
+                <div style="display: grid; gap: 0; margin-top: 12px; border-top: 1px solid #EDEEEF;">
+                  <sc-for list="{{ quizData }}" as="q" hint-placeholder-count="5">
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #EDEEEF;">
+                      <span style="font-weight: 500; font-size: 13px; color: #52516B;">{{ q.q }}</span>
+                      <span style="font-weight: 700; font-size: 13px; text-align: right; flex: none;">{{ q.a }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="border: 1px solid #EDEEEF; border-radius: 16px; padding: 22px 24px;">
+                <div style="font-weight: 800; font-size: 18px; letter-spacing: -0.02em;">Tempo konsumpcji</div>
+                <div style="font-weight: 500; font-size: 13.5px; line-height: 1.55; color: #52516B; margin-top: 4px; max-width: 62ch;">Liczone z odstępów między zamówieniami, nie z deklaracji. Deklarowała „do 3 filiżanek dziennie”, realnie zużywa 250 g w 26 dni — dlatego proponujemy co 4 tygodnie, a nie co 2.</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px;">
+                  <sc-for list="{{ pace }}" as="p" hint-placeholder-count="3">
+                    <div style="border-radius: 12px; background: #F6FBFF; padding: 14px 16px;">
+                      <div style="font-weight: 800; font-size: 20px; letter-spacing: -0.03em;">{{ p.v }}</div>
+                      <div style="font-weight: 600; font-size: 12px; color: #52516B; margin-top: 3px;">{{ p.k }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="border: 1px solid #EDEEEF; border-radius: 16px; padding: 22px 24px;">
+                <div style="font-weight: 800; font-size: 18px; letter-spacing: -0.02em;">Rekomendacja na następną dostawę</div>
+                <div style="display: flex; align-items: center; gap: 16px; margin-top: 12px; flex-wrap: wrap;">
+                  <div style="flex: 1; min-width: 240px; font-weight: 500; font-size: 13.5px; line-height: 1.6; color: #52516B;">Kenia Nyeri Gichathaini. Trzy oceny kwasowości powyżej 4, wszystkie zaparzenia przelewowe, brak mleka w profilu. Ryzyko: to najdroższa pozycja, +6 zł do dostawy.</div>
+                  <div onClick="{{ applyRec }}" style="height: 46px; padding: 0 20px; border-radius: 8px; background: #14133A; color: #fff; display: flex; align-items: center; cursor: pointer; font-weight: 700; font-size: 14px; flex: none;" style-hover="background:#414483">{{ recBtn }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1480,&quot;height&quot;:1060}}">
+const EVENTS = [
+  ['view_product', 412, 'Które loty oglądają, a które nie wychodzą z katalogu.'],
+  ['quiz_started', 96, 'Ile osób przyznaje, że nie wie, co wybrać. Rośnie po każdej kampanii dla nowicjuszy.'],
+  ['quiz_completed', 71, 'Odpowiedzi lądują w profilu i sterują rekomendacjami. Porzucenia na pytaniu 2 znaczą, że lista metod jest za długa.'],
+  ['add_to_cart', 138, 'Licznik konwersji z karty produktu. Zestawiamy z view_product na poziomie lotu.'],
+  ['grind_selected', 44, 'Ile osób nie ma młynka. Steruje tym, jak mocno promujemy sprzęt i przepisy na french press.'],
+  ['subscription_configured', 29, 'Konfiguracja przed potwierdzeniem: gdzie ludzie utykają w kreatorze.'],
+  ['checkout_started', 104, 'Punkt odniesienia dla porzuceń koszyka. Różnica z purchase to koszt niejasnej dostawy.'],
+  ['purchase', 87, 'Pozycje i AOV. Podstawa LTV i planu zielonego ziarna.'],
+  ['review_submitted', 23, 'Oceny, tagi i metoda parzenia. Zasila profil klientów na karcie produktu.'],
+  ['recipe_calculated', 156, 'Które metody są realnie używane. Kolejność zakładek w /parzenie idzie za tym.'],
+  ['subscription_paused', 6, 'Sygnał wczesnego ostrzegania. Pauza po pierwszej dostawie to inny problem niż po szóstej.'],
+  ['subscription_changed', 18, 'Zmiany kawy i częstotliwości. Dużo zmian częstotliwości znaczy, że domyślna jest źle dobrana.'],
+  ['referral_shared', 11, 'Ile poleceń wychodzi i ile z nich wraca zamówieniem.']
+];
+
+const MAILS = [
+  { day: 'D0', title: 'Podziękowanie i data palenia', subject: 'Twoja kawa jedzie w czwartek', stat: '98% otwarć', body: 'Potwierdzenie zamówienia z konkretną datą palenia partii i datą wysyłki. Bez obrazków, bez promocji, jeden akapit i numer paczki. To najczęściej otwierany mail w całym cyklu, więc nie zaśmiecamy go niczym innym.', cond: 'Zaraz po opłaceniu zamówienia.' },
+  { day: 'D3', title: 'Jak zaparzyć akurat tę kawę', subject: 'Twoja Etiopia lubi wodę 94 °C', stat: '61% otwarć', body: 'Przepis dopasowany do kupionego lotu i do metody, którą klient zaznaczył przy mieleniu albo w quizie. Link do kalkulatora z ustawionymi parametrami. Kawa dojdzie do formy około siódmego dnia, więc mail przychodzi zanim klient ją otworzy.', cond: 'Trzeci dzień po wysyłce. Pomijany, jeśli klient ma już zapisany przepis dla tej metody.' },
+  { day: 'D10', title: 'Prośba o ocenę', subject: 'Jak wyszła?', stat: '34% otwarć, 21% ocen', body: 'Trzy suwaki w treści maila: kwasowość, słodycz, body. Klikniecie prowadzi do formularza z już zaznaczonymi wartościami. Nie prosimy o gwiazdki i nie prosimy dwa razy.', cond: 'Dziesiąty dzień po doręczeniu, tylko przy pierwszym zamówieniu danego lotu.' },
+  { day: 'D21', title: 'Kawa się kończy', subject: 'Zostało ci mniej więcej na tydzień', stat: '44% otwarć, 12% zamówień', body: 'Termin liczony z realnego tempa konsumpcji klienta, nie ze średniej. Jeden przycisk zamawiający dokładnie to samo, drugi otwierający katalog. Dla klientów z subskrypcją ten mail nie jest wysyłany.', cond: 'Kiedy wyliczony zapas spada poniżej 60 g. Nie wysyłamy do subskrybentów.' },
+  { day: 'D45', title: 'Winback', subject: 'Wróć na wtorkowy wypał', stat: '19% otwarć, 5% powrotów', body: 'Jeden mail, jedna zniżka na pierwsze trzy dostawy subskrypcji, żadnych przypomnień o zniżce. Jeśli klient nie wróci, przenosimy go na listę raz na kwartał.', cond: 'Czterdziesty piąty dzień bez zamówienia. Wysyłany raz.' }
+];
+
+class Component extends DCLogic {
+  state = {
+    tab: 'events', mail: 0, locked: false, recApplied: false,
+    plan: { yirga: 26, guji: 22, kenia: 14, gwatemala: 18, huila: 24, cerrado: 30 }
+  };
+  pillStyle(on) { return 'height: 34px; padding: 0 13px; border-radius: 8px; display: flex; align-items: center; cursor: pointer; font-weight: 700; font-size: 13px; background: ' + (on ? '#14133A' : '#fff') + '; color: ' + (on ? '#fff' : '#52516B') + ';'; }
+
+  renderVals() {
+    const s = this.state;
+    const max = Math.max.apply(null, EVENTS.map(e => e[1]));
+    const QUEUE = [
+      { id: 'yirga', name: 'Etiopia Yirgacheffe Konga', origin: 'Spółdzielnia Konga · washed', orders: 18, subs: 9, stock: 41 },
+      { id: 'guji', name: 'Etiopia Guji Hambela', origin: 'Hambela Estate · natural', orders: 14, subs: 7, stock: 24 },
+      { id: 'kenia', name: 'Kenia Nyeri Gichathaini', origin: 'Gichathaini Factory · washed', orders: 9, subs: 3, stock: 11 },
+      { id: 'gwatemala', name: 'Gwatemala La Bolsa', origin: 'Finca La Bolsa · honey', orders: 11, subs: 5, stock: 38 },
+      { id: 'huila', name: 'Kolumbia Huila El Mirador', origin: 'Finca El Mirador · washed', orders: 16, subs: 8, stock: 52 },
+      { id: 'cerrado', name: 'Brazylia Cerrado Fazenda Rainha', origin: 'Fazenda Rainha · natural', orders: 21, subs: 12, stock: 68 }
+    ];
+    const totalPlan = QUEUE.reduce((a, q) => a + (Number(s.plan[q.id]) || 0), 0);
+
+    return {
+      pills: [['events', 'Zdarzenia'], ['mails', 'Cykl listów'], ['queue', 'Kolejka wypału'], ['profile', 'Profil klienta']].map(([id, label]) => ({
+        label, go: () => this.setState({ tab: id }), style: this.pillStyle(s.tab === id)
+      })),
+      frameW: 1360, frameH: 940,
+      url: 'homiecoffee.pl/admin/' + s.tab,
+      tabs: [{ title: 'Homie Coffee — panel administratora' }],
+      isEvents: s.tab === 'events', isMails: s.tab === 'mails', isQueue: s.tab === 'queue', isProfile: s.tab === 'profile',
+
+      kpis: [
+        { label: 'Zamówienia, 7 dni', value: '87', note: '+14 wobec poprzedniego tygodnia' },
+        { label: 'Średnia wartość', value: '73 zł', note: 'Bez dostawy, brutto' },
+        { label: 'Aktywne subskrypcje', value: '44', note: '6 zatrzymanych, 2 anulowane' },
+        { label: 'Quiz do zakupu', value: '31%', note: 'Z 71 ukończonych quizów' }
+      ],
+      eventRows: EVENTS.map(([name, count, use]) => ({
+        name, count, use,
+        bar: 'position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; background: #14133A; width: ' + (count / max * 100) + '%;'
+      })),
+
+      mails: MAILS.map((m, i) => ({
+        day: m.day, title: m.title, subject: m.subject, stat: m.stat, body: m.body, cond: m.cond,
+        go: () => this.setState({ mail: s.mail === i ? -1 : i }),
+        style: 'border-radius: 16px; padding: 18px 20px; cursor: pointer; background: #fff; border: 1.5px solid ' + (s.mail === i ? '#36F0C7' : '#EDEEEF') + ';',
+        dayStyle: 'width: 44px; height: 44px; flex: none; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; background: ' + (s.mail === i ? '#14133A' : '#F6FBFF') + '; color: ' + (s.mail === i ? '#36F0C7' : '#14133A') + ';',
+        bodyStyle: s.mail === i ? 'margin-top: 12px;' : 'display: none;'
+      })),
+
+      queueTotal: totalPlan + ' kg',
+      queue: QUEUE.map(q => {
+        const plan = Number(s.plan[q.id]) || 0;
+        const short = plan > q.stock;
+        return {
+          name: q.name, origin: q.origin, orders: q.orders + ' szt.', subs: q.subs + ' szt.',
+          stock: q.stock + ' kg', plan: String(s.plan[q.id]),
+          set: e => this.setState({ plan: Object.assign({}, s.plan, { [q.id]: e.target.value.replace(/[^0-9]/g, '') }) }),
+          warnStyle: short ? 'font-weight: 700; font-size: 11.5px; color: #A93B2C; margin-top: 2px;' : 'font-weight: 600; font-size: 11.5px; color: #52516B; margin-top: 2px;',
+          warn: short ? 'Brakuje ' + (plan - q.stock) + ' kg — zamów zielone' : 'Wystarczy na ' + Math.floor(q.stock / Math.max(plan, 1)) + ' wypały'
+        };
+      }),
+      lockQueue: () => this.setState({ locked: !s.locked }),
+      lockLabel: s.locked ? 'Kolejka zamknięta — otwórz ponownie' : 'Zamknij kolejkę na wtorek',
+
+      profileRows: [
+        { k: 'Ulubiony profil', v: 'kwiatowy, owocowy' },
+        { k: 'Metoda parzenia', v: 'V60 (3 z 3 ocen)' },
+        { k: 'Mielenie', v: 'ziarna, ma młynek' },
+        { k: 'Średnia kwasowość w ocenach', v: '4,3 / 5' },
+        { k: 'Wartość dotychczasowa', v: '312 zł' },
+        { k: 'Skąd nas zna', v: 'Od znajomego' }
+      ],
+      quizData: [
+        { q: 'Jak zwykle pijesz kawę?', a: 'Czarna' },
+        { q: 'Czym parzysz?', a: 'Przelew, V60' },
+        { q: 'Wolisz smak bliższy...', a: 'Owoce i cytrusy' },
+        { q: 'Masz młynek?', a: 'Tak' },
+        { q: 'Ile kawy pijesz tygodniowo?', a: 'Do 3 filiżanek dziennie' }
+      ],
+      pace: [
+        { v: '26 dni', k: 'Realny czas zużycia 250 g' },
+        { v: '9,6 g', k: 'Dziennie, średnio' },
+        { v: '4 tyg.', k: 'Dobrana częstotliwość' }
+      ],
+      applyRec: () => this.setState({ recApplied: !s.recApplied }),
+      recBtn: s.recApplied ? 'Wpisana w subskrypcję' : 'Wstaw w następną dostawę'
+    };
+  }
+}
+</script>
+</body>
+</html>

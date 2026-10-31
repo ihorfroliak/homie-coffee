@@ -1,5 +1,8 @@
 # Homie Coffee Admin Dashboard — Design QA
 
+The separate 2026-10-30 Shop/Admin export import is covered in
+[design-import-qa.md](design-import-qa.md). This historical Option 1 review remains unchanged below.
+
 **Date:** 2026-08-22
 **Scope:** selected desktop-first Admin Dashboard visual, Option 1
 **Reference:** `reference/admin-dashboard-option-1.png` (1487 × 1058 original)

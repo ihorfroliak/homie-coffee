@@ -1,27 +1,38 @@
 # Homie Coffee
 
-Coffee e-commerce for the Polish market — B2C and B2B. Part of the **Homie** ecosystem
-(HeyHomie, Homies, Homie English, Homie Coffee).
+Coffee commerce for Poland, explored for B2C and B2B within the Homie ecosystem.
 
-> **Phase: specification.** There is no application yet, and none may be built until the product
-> owner approves positioning, business model, MVP scope, technology, the advertising measurement
-> model and the roadmap. See `AGENTS.md`.
+**Current phase: commercial validation, specification and local prototypes.** Technology is
+approved (D-006); production implementation and launch remain gated (D-024). This repository
+contains research and a working economics model, not a live shop.
 
-## Where things are
+Research, decisions, prompts and development now continue together in Codex. Claude review is
+optional (D-025). Ihor makes business decisions and merges changes.
 
-| Path | What |
-|---|---|
-| [`AGENTS.md`](AGENTS.md) | operating rules for Claude Code, Codex and humans — roles, definition of done, review priorities |
-| [`docs/homie-coffee/01-assumptions-questions-decisions.md`](docs/homie-coffee/01-assumptions-questions-decisions.md) | facts vs assumptions vs open questions; the decision register |
-| [`docs/homie-coffee/17-agent-interop.md`](docs/homie-coffee/17-agent-interop.md) | how Claude Code and Codex react to each other's changes automatically |
-| `docs/homie-coffee/00-…16-…` | the product, business, marketing, SEO, analytics and technical specification — **not written yet** |
-| `docs/homie-coffee/sources.md` | every external claim with link, publication date, access date and a fact/estimate/inference tag — **not written yet** |
+## Start here
 
-## Status
+- [Working brief in Ukrainian](docs/homie-coffee/WORKING-BRIEF.uk.md): business flows, decision
+  status, ideas, next actions and a reusable development prompt.
+- [Decision register](docs/homie-coffee/01-assumptions-questions-decisions.md): facts, hypotheses,
+  approvals and unresolved questions.
+- [Latest handoff](docs/homie-coffee/HANDOFF.md): actual verification and next owner.
+- [Gate 0](docs/homie-coffee/18-commercial-feasibility-gate.md) and
+  [source register](docs/homie-coffee/sources.md): research provenance and economic limitations.
+- [Design import](design/sources/2026-10-30/README.md): supplied exports, provenance and limitations.
+- [Operating rules](AGENTS.md) and [workflow](docs/homie-coffee/17-agent-interop.md).
 
-- Repository initialised 2026-08-20. Specification in progress.
-- Market research: **not started** — nothing in this repository cites a source yet.
-- Technology: **not chosen**. The house stack used elsewhere in the Homie ecosystem is an input
-  to the decision, not the decision.
-- Native mobile application: **recommended against at launch**; the argument and the measurable
-  thresholds that would reverse the recommendation go in doc 06.
+## Local workspace
+
+From the repository root, `npm ci`, then `npm --prefix prototypes/admin-dashboard run dev`.
+Vite binds only to `127.0.0.1`. The workspace links to:
+
+- `/shop.html`: supplied Shop design, with local demo interactions.
+- `/admin-lab.html`: supplied event/email/roast/profile concepts.
+- `/?view=operations`: the existing Option 1 operational dashboard.
+
+`npm run check` runs economics and design-import regression tests, all six model scenarios and the full local
+prototype build. B2B outputs remain `unresolved` until explicit-basis quotes and accountant review.
+Production lint/typecheck, database integration and Playwright suites do not exist yet.
+
+The prototype is disposable Vite/React; it is not the approved Next.js production scaffold.
+Refresh resets demo state. No real payments, orders, customer records, integrations or deployment.

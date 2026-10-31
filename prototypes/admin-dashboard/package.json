@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "node scripts/prepare-designs.mjs",
     "dev": "vite --host 127.0.0.1",
+    "prebuild": "node scripts/prepare-designs.mjs",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1"
   },

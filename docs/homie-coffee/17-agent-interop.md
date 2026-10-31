@@ -1,5 +1,12 @@
 # 17 — Claude Code ↔ Codex interoperability
 
+> **Current workflow — D-025, Ihor, 2026-10-30.** Research, decisions, prompts and development
+> continue in this Homie Coffee Codex chat. Codex may update specifications on a proposal branch.
+> Claude participation and the reaction matrix below are suspended unless Ihor requests them.
+> The repository remains the durable record; Ihor still decides business scope and merges.
+> D-013/D-024 production and spending gates remain unchanged. The remainder of this document is
+> the historical interoperability design, not a requirement to wait for Claude or build automation.
+
 **Decision D-002 (Ihor, 2026-08-20):** everything lives in
 `github.com/ihorfroliak/homie-coffee`, and the two agents must interact automatically — when
 one produces a change, the other reacts.

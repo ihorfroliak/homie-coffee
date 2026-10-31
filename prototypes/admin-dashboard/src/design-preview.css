@@ -1,0 +1,13 @@
+.prototype-notice { font: 600 12px/1.5 Manrope, sans-serif; display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: center; padding: 12px 24px; background: #141338; color: #fff; }
+.prototype-notice a { color: #77ecc8; text-decoration: underline; text-underline-offset: 3px; }
+.prototype-notice a:focus-visible { outline: 2px solid #fff; outline-offset: 5px; }
+.design-frame { max-width: 1360px; }
+.source-reference .prototype-notice { display: none; }
+@media (max-width: 600px) {
+  body:not(.source-reference) #dc-root > .sc-host > div { padding: 18px 12px 32px !important; }
+}
+@container (max-width: 560px) {
+  body:not(.source-reference) .design-shop-header { gap: 8px !important; }
+  body:not(.source-reference) .design-shop-header > div:first-child > span:last-child { display: none; }
+  body:not(.source-reference) .cs [style*="min-width: 320px"] { min-width: 0 !important; }
+}

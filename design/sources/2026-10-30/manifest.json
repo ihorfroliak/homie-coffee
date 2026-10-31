@@ -1,0 +1,80 @@
+{
+  "imported": "2026-10-30",
+  "archive": {
+    "name": "Homie Coffee.zip",
+    "sha256": "23c1984d5fed6a9979901c20ec83cbca07e7805db009f959e24813c5082d2585"
+  },
+  "files": [
+    {
+      "name": "Homie Coffee - Sklep.dc.html",
+      "bytes": 181880,
+      "sha256": "05a4a5f36e45cd1292c471e85563910506e07ed8f7c43ab6c01b3a0888f3d4a0",
+      "matchesSeparateAttachment": true,
+      "originalSha256": "fe2a7fbd4ee109db14178d730ec5db8197dc02824843b7157331f359ccdfe6e2",
+      "redactions": "Review author labels, account/profile name and sample delivery address replaced by explicit DEMO values."
+    },
+    {
+      "name": "Homie Coffee - Panel admina.dc.html",
+      "bytes": 25238,
+      "sha256": "736566c5ddd260c7625577c248d406f6883ef3bb0207158ed9578592f9b962da",
+      "matchesSeparateAttachment": true,
+      "originalSha256": "adfb468dd2bf412499c7c438960657978a1f35298db2fe85716da987aae8dce7",
+      "redactions": "Review author labels, account/profile name and sample delivery address replaced by explicit DEMO values."
+    },
+    {
+      "name": "support.js",
+      "bytes": 69150,
+      "sha256": "8fe7df74405f3c55f49b7249c74ea1397e65d07dea2b1bd3b4a489bec2e28cbe",
+      "matchesSeparateAttachment": null
+    },
+    {
+      "name": "browser-window.jsx",
+      "bytes": 4734,
+      "sha256": "ffeb1267e10b57886f44f32b5e73a09dd8acc2002880d4820b99783a113c549b",
+      "matchesSeparateAttachment": null
+    },
+    {
+      "name": "image-slot.js",
+      "bytes": 65350,
+      "sha256": "fff26d081c8d9d60870f86c7539a5d179b9cdab15e67f2b205508a068e7c7ff6",
+      "matchesSeparateAttachment": null
+    },
+    {
+      "name": ".thumbnail",
+      "bytes": 12470,
+      "sha256": "9370e840cfeed14c5ba0c60712afeb360c5b92a9af230f23cc47d6be0653808d",
+      "matchesSeparateAttachment": null
+    }
+  ],
+  "referenceArchiveEntries": [
+    "uploads/+ Data Sync.dc.html",
+    "uploads/+ System Map.dc.html",
+    "uploads/+ System Spec.dc.html",
+    "uploads/+ UX Audit & Roadmap.dc.html",
+    "uploads/.thumbnail",
+    "uploads/1. Main Page Web.dc.html",
+    "uploads/2. OKK.dc.html",
+    "uploads/3. Admin Web.dc.html",
+    "uploads/4. Client Mobile App.dc.html",
+    "uploads/5. Homie Mobile App.dc.html",
+    "uploads/6. Admin Mobile App.dc.html",
+    "uploads/HeyHomie App - Client v1.dc.html",
+    "uploads/HeyHomie Client - Booking Flow v1.dc.html",
+    "uploads/HeyHomie Client App - UX Audit & Strategy.dc.html",
+    "uploads/HeyHomie Mobile App v2.dc.html",
+    "uploads/HeyHomie Web - About Us v1.dc.html",
+    "uploads/HeyHomie Web - Cleaning Service v1.dc.html",
+    "uploads/HeyHomie Web - Client Account v1.dc.html",
+    "uploads/HeyHomie Web - Client Account v2.dc.html",
+    "uploads/HeyHomie Web - Client Account v3.dc.html",
+    "uploads/HeyHomie Web - Krakow Landing v1.dc.html",
+    "uploads/HeyHomie Web - Site v1.dc.html",
+    "uploads/android-frame.jsx",
+    "uploads/browser-window.jsx",
+    "uploads/github.md",
+    "uploads/image-slot.js",
+    "uploads/ios-frame.jsx",
+    "uploads/support.js"
+  ],
+  "originals": "Byte-exact exports and full archive extraction saved locally under .local/design-imports/2026-10-30 (ignored). Tracked HTML copies redact customer-like identifiers."
+}

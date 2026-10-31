@@ -1,0 +1,5 @@
+# Imported design checksums must survive Windows/Linux checkout unchanged.
+design/sources/2026-10-30/*.html -text
+design/sources/2026-10-30/*.js -text
+design/sources/2026-10-30/*.jsx -text
+design/sources/2026-10-30/.thumbnail binary

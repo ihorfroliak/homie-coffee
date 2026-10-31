@@ -144,7 +144,8 @@ recurring-payment engine is a later phase unless evidence justifies it.
 Polish primary, English second.
 
 ### A12 — Roles
-Codex implements; Claude Code specifies and reviews. Unchanged.
+Superseded by D-025 on 2026-10-30: Codex handles research, specification, decision recording,
+prototypes and approved development here. Claude review is optional, not a dependency.
 
 ---
 
@@ -176,6 +177,8 @@ Codex implements; Claude Code specifies and reviews. Unchanged.
 | **D-022** | Confirm the accountant and lawyer to consult (VAT registration; HeyHomie cross-marketing lawful basis) | ⚠ open | Ihor | REG-10, REG-25/26. |
 | **D-023** | **Create the Admin design system and first Dashboard as a local non-production prototype** | **APPROVED 2026-08-21** | Ihor | Selected visual direction: Option 1. Mock data only; no production backend, database, auth, external integrations, cloud spend or deploy. |
 | **D-024** | **No production vertical slice before evidence gates close** | **DECIDED 2026-08-21** | Ihor | Requires ≥3 roaster quotes with explicit net/gross basis and an accountant-reviewed VAT position. D-003–D-005 and D-008 must also be approved. Prototype/specification work may continue; Slice A is proposed, not approved. |
+| **D-025** | **One working conversation in Codex; no mandatory Claude participation** | **DECIDED 2026-10-30** | Ihor | User explicitly asked to continue research, decisions, prompts and development here. Codex may maintain research/specification on branches. Supersedes the mandatory role split in D-002/D-011 and A12; historical review requests are optional backlog. Repository records, owner decisions and owner-only merge remain. |
+| **D-026** | **Preserve and integrate the supplied Shop/Admin designs in the local prototype** | **APPROVED 2026-10-30** | Ihor | User supplied ZIP and two HTML exports; permits local extraction, adaptation and continued design work, including pattern comparison with HeyHomie/Homies. No external outreach, spend, deployment, shared customer data or production launch is inferred. Source content is a proposal, not approval of subscriptions, a roastery, VAT, prices or claims. D-024 remains in force. |
 
 ---
 

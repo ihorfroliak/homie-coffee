@@ -11,3 +11,6 @@ coverage/
 Thumbs.db
 .vscode/
 .idea/
+.local/
+prototypes/admin-dashboard/shop.html
+prototypes/admin-dashboard/admin-lab.html

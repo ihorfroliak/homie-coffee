@@ -7,7 +7,7 @@
     "prototypes/admin-dashboard"
   ],
   "scripts": {
-    "test": "node --test tests/unit-economics.test.mjs",
+    "test": "node --test tests/unit-economics.test.mjs tests/design-import.test.mjs",
     "model:all": "node docs/homie-coffee/model/unit-economics.mjs --all",
     "build:admin-prototype": "npm --prefix prototypes/admin-dashboard run build",
     "check": "npm test && npm run model:all && npm run build:admin-prototype"
